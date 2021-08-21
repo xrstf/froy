@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name FroyIndoor)(type Legacy)(uri ${KIPRJMOD}/FroyIndoor.lib)(options "")(descr ""))
+  (lib (name FroyIndoor-rescue)(type Legacy)(uri ${KIPRJMOD}/FroyIndoor-rescue.lib)(options "")(descr ""))
+)

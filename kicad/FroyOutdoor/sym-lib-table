@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name FroyOutdoor)(type Legacy)(uri ${KIPRJMOD}/FroyOutdoor.lib)(options "")(descr ""))
+)

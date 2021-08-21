@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name FroyForMen)(type Legacy)(uri ${KIPRJMOD}/FroyForMen.lib)(options "")(descr ""))
+)
