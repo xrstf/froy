@@ -11,7 +11,7 @@ pressure).
 * programming via USB (only for indoor variant, others need a standalone USB->UART converter)
 * webserver with Prometheus compatible `/metrics` endpoint
 * reconfiguration via USB or WiFi (i.e. `curl -XPOST -d'{"new":"config"}' http://device/`)
-* OTA pull support (Froy pulls new firmware from a specified location)
+* OTA pull support (Frøy pulls new firmware from a specified location)
 * TLS support (single fingerprint only)
 * relatively easy to solder by hand (nothing smaller than an 0805 package)
 
@@ -44,7 +44,7 @@ Frøy's push request.
 
 Frøy currently comes in three flavors:
 
-### Froy Outdoor
+### Frøy Outdoor
 
 ![](https://raw.githubusercontent.com/xrstf/froy/master/docs/images/froy-outdoor-pcb.png)
 
@@ -57,7 +57,7 @@ The case can be bought on Amazon: https://www.amazon.de/gp/product/B072M2JKGW/ -
 aware of any alternative sources. In case the product disappears, I saved the schematics
 in `docs/images/froy-outdoor-case-drawings.jpg`.
 
-### Froy Indoor
+### Frøy Indoor
 
 ![](https://raw.githubusercontent.com/xrstf/froy/master/docs/images/froy-indoor-pcb.png)
 
@@ -76,3 +76,7 @@ the battery regularly is not desirable.
 
 The case can be bought on Amazon, for example https://www.amazon.de/gp/product/B07B9KY9X4/ --
 alternatively search for "Snowsound case" on your favorite search engine.
+
+---
+
+Frøy was named after the character in the NRK series ["Norsemen"](https://tv.nrk.no/serie/vikingane).
