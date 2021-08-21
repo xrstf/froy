@@ -28,6 +28,10 @@ Frøy currently comes in three flavors:
 This is the original project. It runs using a CR123 battery, which lasts roughly 3-5
 months when reporting data every 15 minutes.
 
+The case can be bought on Amazon: https://www.amazon.de/gp/product/B072M2JKGW/ -- I am not
+aware of any alternative sources. In case the product disappears, I saved the schematics
+in `docs/images/froy-outdoor-case-drawings.jpg`.
+
 ### Froy Indoor
 
 ![](https://raw.githubusercontent.com/xrstf/froy/master/docs/images/froy-indoor-pcb.png)
@@ -44,3 +48,6 @@ This variant is powered by USB and suitable for indoor use.
 
 This variant is powered by mains voltage and is suitable for locations where changing
 the battery regularly is not desirable.
+
+The case can be bought on Amazon, for example https://www.amazon.de/gp/product/B07B9KY9X4/ --
+alternatively search for "Snowsound case" on your favorite search engine.
