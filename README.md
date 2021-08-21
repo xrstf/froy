@@ -1,7 +1,7 @@
 # Frøy - ESP8266+BME Hygrometer
 
 This repository contains the source code, schematics and everything else for my
-personla fancy homegrown hygrometer (sensor that reports temperature, humidity and
+personal fancy homegrown hygrometer (sensor that reports temperature, humidity and
 pressure).
 
 ## Features
