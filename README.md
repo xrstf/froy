@@ -15,6 +15,31 @@ pressure).
 * TLS support (single fingerprint only)
 * relatively easy to solder by hand (nothing smaller than an 0805 package)
 
+## Mode of Operation
+
+Both indoor and outdoor versions can work in one of two modes:
+
+* **Pull Mode** ("server mode") -- in this mode, Frøy is constantly running and connected
+  to your WiFi. It provides an HTTP server and expects you to fetch the data whenever
+  you need it (for example via Prometheus).
+* **Push Mode** -- in this mode, Frøy will make a measurement, connect to WiFi, send out the
+  data to a preconfigured URL and then go to sleep for a configurable amount of time. Rinse
+  and repeat.
+
+The advantage of the Pull Mode is that the interval can be centralled controlled (if you have
+multiple devices). It also makes it easier to trigger an OTA, as Frøy is constantly listening
+for requests.
+
+The advantage of the Push Mode is that Frøy doesn't need any Firewall rules to be reachable
+and it saves power (critical for the Outdoor version). Also, indoor versions in Pull Mode would
+considerable heat up (an ESP8266 that is connected to WiFi can be 35-40°C) and skew the sensor
+readings. So even for indoor versions it is advisable to use Push Mode instead.
+
+While Frøy is not reachable in Push Mode (it never starts a webserver and you'd be pretty luck
+to send a request to it the moment it wakes up and before it goes back to sleep), it is still
+possible to reconfigurable Frøy remotely by putting the new configuration in the _response_ to
+Frøy's push request.
+
 ## Flavors
 
 Frøy currently comes in three flavors:
