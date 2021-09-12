@@ -1,0 +1,9 @@
+BasedOnStyle: Microsoft
+UseTab: AlignWithSpaces
+AlignAfterOpenBracket: DontAlign
+AlignConsecutiveAssignments: AcrossComments
+BreakBeforeBraces: Attach
+NamespaceIndentation: All
+ContinuationIndentWidth: 200
+AccessModifierOffset: -4
+AlignConsecutiveMacros: true
