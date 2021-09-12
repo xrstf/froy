@@ -1,7 +1,7 @@
 #pragma once
 
 // informational purpose only
-#define FROY_VERSION "4.1"
+#define FROY_VERSION "4.2"
 
 // set to 0 if there is no status LED on the board
 #define LED_PIN 5
