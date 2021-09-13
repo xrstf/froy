@@ -5,17 +5,11 @@
 
 namespace multimeter {
 	void setupBattery() {
-		if (BATTERY_PIN > 0) {
-			pinMode(BATTERY_PIN, INPUT);
-		}
+		pinMode(BATTERY_PIN, INPUT);
 	}
 
 	uint16_t readBattery() {
-		if (BATTERY_PIN > 0) {
-			return analogRead(BATTERY_PIN);
-		}
-
-		return 0;
+		return analogRead(BATTERY_PIN);
 	}
 
 	// calculatePercentage transforms the raw ADC value (0..1024) into a
@@ -42,24 +36,22 @@ namespace multimeter {
 		return (uint8_t)(raw / 1.25);
 	}
 
+	void setupPowerTransistor() {
+		pinMode(POWER_PIN, OUTPUT);
+		turnOff();
+	}
+
 	void turnOn() {
-#ifdef SENSOR_POWER_PIN
-		digitalWrite(SENSOR_POWER_PIN, HIGH);
-#endif
+		digitalWrite(POWER_PIN, HIGH);
 	}
 
 	void turnOff() {
-#ifdef SENSOR_POWER_PIN
-		digitalWrite(SENSOR_POWER_PIN, LOW);
-#endif
+		digitalWrite(POWER_PIN, LOW);
 	}
 
 	void setup() {
 		setupBattery();
-#ifdef SENSOR_POWER_PIN
-		pinMode(SENSOR_POWER_PIN, OUTPUT);
-		turnOff();
-#endif
+		setupPowerTransistor();
 	}
 
 	void read(measurement *m, eeprom::data *config) {

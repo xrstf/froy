@@ -6,13 +6,13 @@
 // set to 0 if there is no status LED on the board
 #define LED_PIN 5
 
+// A0 is the only pin on an ESP-WROOM-02 that has
+// an ADC attached, all other pins are digital.
 #define BATTERY_PIN A0
-// #define BATTERY_PIN 0
 
-// if this is defined, it's the GPIO pin that controls
-// the power to the sensor and I²C bus pull-ups;
-// set it via platformio.ini environments
-// #define SENSOR_POWER_PIN 12
+// this is the GPIO pin that controls the power to
+// the sensor, I²C bus pull-ups and battery voltage divider
+#define POWER_PIN 12
 
 // Only some of the variants maintained in https://github.com/esp8266/Arduino/tree/master/variants
 // have the correct pinout for an ESP-WROOM-02. To keep the code generic,

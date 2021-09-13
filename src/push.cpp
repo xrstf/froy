@@ -1,7 +1,7 @@
 #include "config.h"
-#include "ota.h"
 #include "eeprom.h"
 #include "multimeter.h"
+#include "ota.h"
 #include "sensor.h"
 #include "util.h"
 #include <ArduinoJson.h>
@@ -98,10 +98,7 @@ bool pushMeasurement(eeprom::data *config, multimeter::measurement *measurement)
 	doc["pressureRetries"]    = measurement->sensor.pressureRetries;
 	doc["humidityRetries"]    = measurement->sensor.humidityRetries;
 	doc["duration"]           = measurement->duration;
-
-	if (BATTERY_PIN > 0) {
-		doc["battery"] = measurement->battery;
-	}
+	doc["battery"]            = measurement->battery;
 
 	String body;
 	serializeJson(doc, body);

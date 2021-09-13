@@ -233,11 +233,7 @@ namespace cli {
 		xrstf::serialPrintf("Temperature: %s °C (%d retries)\n", xrstf::fmtFloat(m.sensor.temperature), m.sensor.temperatureRetries);
 		xrstf::serialPrintf("Humidity...: %s %% (%d retries)\n", xrstf::fmtFloat(m.sensor.humidity), m.sensor.humidityRetries);
 		xrstf::serialPrintf("Pressure...: %s hPa (%d retries)\n", xrstf::fmtFloat(m.sensor.pressure), m.sensor.pressureRetries);
-
-		if (BATTERY_PIN > 0) {
-			xrstf::serialPrintf("Battery....: %d units\n", m.battery);
-		}
-
+		xrstf::serialPrintf("Battery....: %d units\n", m.battery);
 		xrstf::serialPrintf("Duration...: %d ms\n", m.duration);
 	}
 
@@ -573,7 +569,7 @@ namespace cli {
 				handleLocalIPCommand();
 			} else if (strcmp(commandStr, "wipe") == 0) {
 				handleWipeCommand();
-			} else if (BATTERY_PIN > 0 && strcmp(commandStr, "battery") == 0) {
+			} else if (strcmp(commandStr, "battery") == 0) {
 				handleBatteryCommand();
 			} else if (strcmp(commandStr, "reboot") == 0 || strcmp(commandStr, "restart") == 0 || strcmp(commandStr, "reset") == 0) {
 				handleRestartCommand();

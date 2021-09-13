@@ -1,12 +1,12 @@
 #include "webserver.h"
 #include "config.h"
-#include "ota.h"
 #include "eeprom.h"
-#include "sensor.h"
 #include "multimeter.h"
+#include "ota.h"
+#include "sensor.h"
 #include "util.h"
-#include <ESP8266WebServer.h>
 #include <ArduinoJson.h>
+#include <ESP8266WebServer.h>
 
 namespace webserver {
 	ESP8266WebServer server(80);
@@ -45,22 +45,19 @@ namespace webserver {
 
 		StaticJsonDocument<256> doc;
 
-		doc["deviceName"] = config.deviceName;
-		doc["appVersion"] = FROY_VERSION;
-		doc["sensorType"] = sensor::typeName(config.sensorType);
-		doc["temperature"] = m.sensor.temperature;
-		doc["pressure"] = m.sensor.pressure;
-		doc["humidity"] = m.sensor.humidity;
-		doc["temperatureOffset"] = config.temperatureOffset;
-		doc["pressureOffset"] = config.pressureOffset;
-		doc["humidityOffset"] = config.humidityOffset;
+		doc["deviceName"]         = config.deviceName;
+		doc["appVersion"]         = FROY_VERSION;
+		doc["sensorType"]         = sensor::typeName(config.sensorType);
+		doc["temperature"]        = m.sensor.temperature;
+		doc["pressure"]           = m.sensor.pressure;
+		doc["humidity"]           = m.sensor.humidity;
+		doc["temperatureOffset"]  = config.temperatureOffset;
+		doc["pressureOffset"]     = config.pressureOffset;
+		doc["humidityOffset"]     = config.humidityOffset;
 		doc["temperatureRetries"] = m.sensor.temperatureRetries;
-		doc["pressureRetries"] = m.sensor.pressureRetries;
-		doc["humidityRetries"] = m.sensor.humidityRetries;
-
-		if (BATTERY_PIN > 0) {
-			doc["battery"] = m.battery;
-		}
+		doc["pressureRetries"]    = m.sensor.pressureRetries;
+		doc["humidityRetries"]    = m.sensor.humidityRetries;
+		doc["battery"]            = m.battery;
 
 		String body;
 		serializeJson(doc, body);
@@ -78,8 +75,8 @@ namespace webserver {
 		multimeter::measurement m;
 		multimeter::read(&m, &config);
 
-		String response = "";
-		const char* sensorType = sensor::typeName(config.sensorType);
+		String response        = "";
+		const char *sensorType = sensor::typeName(config.sensorType);
 
 		char buf[192];
 		memset(buf, 0, sizeof(buf));
@@ -159,14 +156,12 @@ namespace webserver {
 		response += "# TYPE froy_measurement_duration gauge\r\n";
 		response += buf;
 
-		if (BATTERY_PIN > 0) {
-			memset(buf, 0, sizeof(buf));
-			sprintf(buf, "froy_battery{device_name=\"%s\"} %d\r\n", config.deviceName, m.battery);
+		memset(buf, 0, sizeof(buf));
+		sprintf(buf, "froy_battery{device_name=\"%s\"} %d\r\n", config.deviceName, m.battery);
 
-			response += "# HELP froy_battery The raw ADC output value for the battery voltage.\r\n";
-			response += "# TYPE froy_battery gauge\r\n";
-			response += buf;
-		}
+		response += "# HELP froy_battery The raw ADC output value for the battery voltage.\r\n";
+		response += "# TYPE froy_battery gauge\r\n";
+		response += buf;
 
 		server.keepAlive(false);
 		server.send(200, "text/plain", response);
@@ -177,28 +172,26 @@ namespace webserver {
 
 		StaticJsonDocument<192> doc;
 
-		doc["appVersion"] = FROY_VERSION;
-		doc["dataVersion"] = config.version;
-		doc["deviceName"] = config.deviceName;
-		doc["sensorType"] = sensor::typeName(config.sensorType);
-		doc["sensorAddress"] = config.sensorAddress;
-		doc["enableLED"] = config.enableLED;
-		doc["pushURL"] = config.pushURL;
-		doc["ssid"] = config.ssid;
+		doc["appVersion"]        = FROY_VERSION;
+		doc["dataVersion"]       = config.version;
+		doc["deviceName"]        = config.deviceName;
+		doc["sensorType"]        = sensor::typeName(config.sensorType);
+		doc["sensorAddress"]     = config.sensorAddress;
+		doc["enableLED"]         = config.enableLED;
+		doc["pushURL"]           = config.pushURL;
+		doc["ssid"]              = config.ssid;
 		doc["temperatureOffset"] = config.temperatureOffset;
-		doc["pressureOffset"] = config.pressureOffset;
-		doc["humidityOffset"] = config.humidityOffset;
+		doc["pressureOffset"]    = config.pressureOffset;
+		doc["humidityOffset"]    = config.humidityOffset;
 
-		if (BATTERY_PIN > 0) {
-			// disable sensor reading
-			config.sensorType = 0x0;
+		// disable sensor reading
+		config.sensorType = 0x0;
 
-			// read battery
-			multimeter::measurement m;
-			multimeter::read(&m, &config);
+		// read battery
+		multimeter::measurement m;
+		multimeter::read(&m, &config);
 
-			doc["battery"] = m.battery;
-		}
+		doc["battery"] = m.battery;
 
 		String body;
 		serializeJson(doc, body);
@@ -268,28 +261,22 @@ namespace webserver {
 	}
 
 	void setup() {
-		server.on("/data", []() {
-			ledWrapper(handleDataRequest);
-		});
-		server.on("/metrics", []() {
-			ledWrapper(handleMetricsRequest);
-		});
-		server.on("/ota", []() {
-			ledWrapper(handleOTARequest);
-		});
+		server.on("/data", []() { ledWrapper(handleDataRequest); });
+		server.on("/metrics", []() { ledWrapper(handleMetricsRequest); });
+		server.on("/ota", []() { ledWrapper(handleOTARequest); });
 		server.on("/config", []() {
 			ledWrapper([]() {
 				switch (server.method()) {
-					case HTTP_GET:
-						handleGetConfigurationRequest();
-						break;
+				case HTTP_GET:
+					handleGetConfigurationRequest();
+					break;
 
-					case HTTP_POST:
-						handleUpdateConfigurationRequest();
-						break;
+				case HTTP_POST:
+					handleUpdateConfigurationRequest();
+					break;
 
-					default:
-						server.send(400, "text/plain", "invalid method, allowed: GET, POST");
+				default:
+					server.send(400, "text/plain", "invalid method, allowed: GET, POST");
 				}
 			});
 		});
@@ -322,4 +309,4 @@ namespace webserver {
 			server.handleClient();
 		}
 	}
-}
+} // namespace webserver
