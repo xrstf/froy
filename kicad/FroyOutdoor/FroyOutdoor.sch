@@ -32,15 +32,15 @@ Status LED
 Text Label 7400 6150 2    50   ~ 0
 RST
 $Comp
-L Device:R R9
+L Device:R R5
 U 1 1 608F39ED
 P 5700 6400
-F 0 "R9" V 5493 6400 50  0000 C CNN
-F 1 "12k" V 5584 6400 50  0000 C CNN
+F 0 "R5" V 5493 6400 50  0000 C CNN
+F 1 "10k" V 5584 6400 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 5630 6400 50  0001 C CNN
 F 3 "~" H 5700 6400 50  0001 C CNN
 	1    5700 6400
-	0    1    1    0
+	0    1    1    0   
 $EndComp
 Text Label 4800 6400 0    50   ~ 0
 DTR
@@ -59,15 +59,15 @@ auto-reset
 Wire Wire Line
 	6900 7150 6900 7250
 $Comp
-L Device:R R4
+L Device:R R11
 U 1 1 607C09B0
 P 4650 3700
-F 0 "R4" H 4580 3654 50  0000 R CNN
+F 0 "R11" H 4580 3654 50  0000 R CNN
 F 1 "10k" H 4580 3745 50  0000 R CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 4580 3700 50  0001 C CNN
 F 3 "~" H 4650 3700 50  0001 C CNN
 	1    4650 3700
-	-1   0    0    1
+	-1   0    0    1   
 $EndComp
 $Comp
 L Device:R R3
@@ -78,26 +78,26 @@ F 1 "10k" H 6970 7045 50  0000 L CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 6830 7000 50  0001 C CNN
 F 3 "~" H 6900 7000 50  0001 C CNN
 	1    6900 7000
-	1    0    0    1
+	1    0    0    1   
 $EndComp
 $Comp
-L Device:R R2
+L Device:R R7
 U 1 1 607A274F
 P 3200 2350
-F 0 "R2" H 3130 2396 50  0000 R CNN
+F 0 "R7" H 3130 2396 50  0000 R CNN
 F 1 "10k" H 3130 2305 50  0000 R CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 3130 2350 50  0001 C CNN
 F 3 "~" H 3200 2350 50  0001 C CNN
 	1    3200 2350
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Text Notes 3050 1250 0    100  ~ 0
 ESP-WROOM-02U/D
-Text Label 5300 3250 2    50   ~ 0
+Text Label 5400 3250 2    50   ~ 0
 I2C_CLK
-Text Label 5300 2750 2    50   ~ 0
+Text Label 5400 2750 2    50   ~ 0
 I2C_SDA
-Text Label 5300 2650 2    50   ~ 0
+Text Label 5400 2650 2    50   ~ 0
 IO0
 Text Label 2550 2800 0    50   ~ 0
 RST
@@ -106,9 +106,9 @@ RXD
 Text Label 2550 3000 0    50   ~ 0
 TXD
 Wire Wire Line
-	4600 2750 5300 2750
+	4600 2750 5400 2750
 Wire Wire Line
-	4600 3250 5300 3250
+	4600 3250 5400 3250
 Wire Wire Line
 	3400 2700 3200 2700
 Wire Wire Line
@@ -126,11 +126,10 @@ F 1 "GNDREF" H 4155 3877 50  0000 C CNN
 F 2 "" H 4150 4050 50  0001 C CNN
 F 3 "" H 4150 4050 50  0001 C CNN
 	1    4150 4050
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	4600 2650 5300 2650
-NoConn ~ 4600 3050
+	4600 2650 5400 2650
 NoConn ~ 4600 3150
 NoConn ~ 4600 2850
 Wire Wire Line
@@ -144,7 +143,7 @@ F 1 "ESP-WROOM-02U__4MB_" H 4700 2750 50  0001 C CNN
 F 2 "xrstf:ESP-WROOM-02U" H 5650 2700 50  0001 L CNN
 F 3 "" H 5650 2600 50  0001 L CNN
 	1    4600 2600
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	4050 3800 4050 3900
@@ -184,33 +183,33 @@ F 1 "STATUS" H 3643 5876 50  0000 C CNN
 F 2 "LED_SMD:LED_1206_3216Metric_Pad1.42x1.75mm_HandSolder" H 3650 5750 50  0001 C CNN
 F 3 "~" H 3650 5750 50  0001 C CNN
 	1    3650 5750
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 $Comp
-L Device:R R5
+L Device:R R10
 U 1 1 607C9920
 P 3250 5750
-F 0 "R5" V 3043 5750 50  0000 C CNN
+F 0 "R10" V 3043 5750 50  0000 C CNN
 F 1 "2k2" V 3134 5750 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 3180 5750 50  0001 C CNN
 F 3 "~" H 3250 5750 50  0001 C CNN
 	1    3250 5750
-	0    -1   1    0
+	0    -1   1    0   
 $EndComp
 Wire Wire Line
-	4600 2950 5300 2950
-Text Label 5300 2950 2    50   ~ 0
+	4600 2950 5400 2950
+Text Label 5400 2950 2    50   ~ 0
 LED
 $Comp
-L Device:R R8
+L Device:R R6
 U 1 1 6086724D
 P 5700 7000
-F 0 "R8" V 5815 7000 50  0000 C CNN
-F 1 "12k" V 5906 7000 50  0000 C CNN
+F 0 "R6" V 5815 7000 50  0000 C CNN
+F 1 "10k" V 5906 7000 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 5630 7000 50  0001 C CNN
 F 3 "~" H 5700 7000 50  0001 C CNN
 	1    5700 7000
-	0    1    1    0
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	5850 6400 5950 6400
@@ -255,7 +254,7 @@ F 1 "GNDREF" H 4055 5727 50  0000 C CNN
 F 2 "" H 4050 5900 50  0001 C CNN
 F 3 "" H 4050 5900 50  0001 C CNN
 	1    4050 5900
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	4050 5750 4050 5900
@@ -268,7 +267,7 @@ F 1 "SW_SPST" H 3500 7094 50  0000 C CNN
 F 2 "Button_Switch_SMD:SW_SPST_CK_RS282G05A3" H 3500 6950 50  0001 C CNN
 F 3 "~" H 3500 6950 50  0001 C CNN
 	1    3500 6950
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	3300 6950 2900 6950
@@ -283,7 +282,7 @@ F 1 "GNDREF" H 3805 6977 50  0000 C CNN
 F 2 "" H 3800 7150 50  0001 C CNN
 F 3 "" H 3800 7150 50  0001 C CNN
 	1    3800 7150
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	3700 6950 3800 6950
@@ -308,7 +307,7 @@ F 1 "100nF" V 4049 2100 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric" H 4338 1950 50  0001 C CNN
 F 3 "~" H 4300 2100 50  0001 C CNN
 	1    4300 2100
-	0    -1   -1   0
+	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GNDREF #PWR012
@@ -319,7 +318,7 @@ F 1 "GNDREF" H 4655 2027 50  0000 C CNN
 F 2 "" H 4650 2200 50  0001 C CNN
 F 3 "" H 4650 2200 50  0001 C CNN
 	1    4650 2200
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	4450 2100 4650 2100
@@ -339,7 +338,7 @@ F 1 "BME280" H 6750 3050 50  0000 R CNN
 F 2 "xrstf:BME280_680_BMP280" H 8150 2600 50  0001 C CNN
 F 3 "https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BME280-DS002.pdf" H 6650 2850 50  0001 C CNN
 	1    6650 3050
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 $Comp
 L power:GNDREF #PWR015
@@ -350,7 +349,7 @@ F 1 "GNDREF" H 6555 3727 50  0000 C CNN
 F 2 "" H 6550 3900 50  0001 C CNN
 F 3 "" H 6550 3900 50  0001 C CNN
 	1    6550 3900
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	6750 3650 6750 3750
@@ -398,17 +397,6 @@ Wire Notes Line
 Text Notes 5850 1800 0    100  ~ 0
 BME280/680
 $Comp
-L power:+3V3 #PWR0103
-U 1 1 60A86F8A
-P 6550 2150
-F 0 "#PWR0103" H 6550 2000 50  0001 C CNN
-F 1 "+3V3" H 6565 2323 50  0000 C CNN
-F 2 "" H 6550 2150 50  0001 C CNN
-F 3 "" H 6550 2150 50  0001 C CNN
-	1    6550 2150
-	1    0    0    -1
-$EndComp
-$Comp
 L power:+3V3 #PWR0106
 U 1 1 60A8BC25
 P 4000 1600
@@ -417,7 +405,7 @@ F 1 "+3V3" H 4015 1773 50  0000 C CNN
 F 2 "" H 4000 1600 50  0001 C CNN
 F 3 "" H 4000 1600 50  0001 C CNN
 	1    4000 1600
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 $Comp
 L Device:Q_NPN_BEC Q1
@@ -428,7 +416,7 @@ F 1 "Q_NPN_BEC" H 6341 6355 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 6350 6500 50  0001 C CNN
 F 3 "~" H 6150 6400 50  0001 C CNN
 	1    6150 6400
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 $Comp
 L Device:Q_NPN_BEC Q2
@@ -439,11 +427,11 @@ F 1 "Q_NPN_BEC" H 6341 7045 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 6350 7100 50  0001 C CNN
 F 3 "~" H 6150 7000 50  0001 C CNN
 	1    6150 7000
-	1    0    0    1
+	1    0    0    1   
 $EndComp
 Wire Wire Line
-	4600 3450 5300 3450
-Text Label 5300 3450 2    50   ~ 0
+	4600 3450 5400 3450
+Text Label 5400 3450 2    50   ~ 0
 WAKE_UP
 Text Label 4800 5600 0    50   ~ 0
 WAKE_UP
@@ -458,7 +446,7 @@ F 1 "Q_NPN_BEC" H 6341 5855 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 6350 6000 50  0001 C CNN
 F 3 "~" H 6150 5900 50  0001 C CNN
 	1    6150 5900
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	6250 6100 6250 6150
@@ -471,15 +459,15 @@ Wire Wire Line
 	5300 6650 5300 5900
 Connection ~ 5300 6650
 $Comp
-L Device:R R11
+L Device:R R4
 U 1 1 60BF9F09
 P 5700 5900
-F 0 "R11" V 5493 5900 50  0000 C CNN
-F 1 "12k" V 5584 5900 50  0000 C CNN
+F 0 "R4" V 5493 5900 50  0000 C CNN
+F 1 "10k" V 5584 5900 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 5630 5900 50  0001 C CNN
 F 3 "~" H 5700 5900 50  0001 C CNN
 	1    5700 5900
-	0    1    1    0
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	5950 5900 5850 5900
@@ -494,7 +482,7 @@ F 1 "CR123A" H 1418 1955 50  0000 L CNN
 F 2 "xrstf:CR123A_Holder_ThroughHole" H 1050 1650 50  0001 L BNN
 F 3 "MPD" H 1300 1950 50  0001 L BNN
 	1    1300 1950
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	4000 2100 3200 2100
@@ -511,7 +499,7 @@ F 1 "+3V3" H 6915 6973 50  0000 C CNN
 F 2 "" H 6900 6800 50  0001 C CNN
 F 3 "" H 6900 6800 50  0001 C CNN
 	1    6900 6800
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Connection ~ 6900 7250
 Wire Wire Line
@@ -536,7 +524,7 @@ F 1 "100nF" V 6411 2300 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric" H 6288 2150 50  0001 C CNN
 F 3 "~" H 6250 2300 50  0001 C CNN
 	1    6250 2300
-	0    -1   -1   0
+	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	6100 2300 6000 2300
@@ -561,38 +549,27 @@ F 1 "4k7" H 8480 6355 50  0000 R CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 8480 6400 50  0001 C CNN
 F 3 "~" H 8550 6400 50  0001 C CNN
 	1    8550 6400
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	8550 6650 7900 6650
 Wire Wire Line
 	8550 6550 8550 6650
 $Comp
-L Device:R R6
+L Device:R R2
 U 1 1 60D714B3
 P 8850 6400
-F 0 "R6" H 8780 6446 50  0000 R CNN
+F 0 "R2" H 8780 6446 50  0000 R CNN
 F 1 "4k7" H 8780 6355 50  0000 R CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 8780 6400 50  0001 C CNN
 F 3 "~" H 8850 6400 50  0001 C CNN
 	1    8850 6400
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	8850 6550 8850 6850
 Wire Wire Line
 	7900 6850 8850 6850
-$Comp
-L power:+3V3 #PWR06
-U 1 1 60D73F62
-P 8700 6000
-F 0 "#PWR06" H 8700 5850 50  0001 C CNN
-F 1 "+3V3" H 8715 6173 50  0000 C CNN
-F 2 "" H 8700 6000 50  0001 C CNN
-F 3 "" H 8700 6000 50  0001 C CNN
-	1    8700 6000
-	1    0    0    -1
-$EndComp
 Wire Wire Line
 	8700 6100 8550 6100
 Wire Wire Line
@@ -623,7 +600,7 @@ F 1 "Conn_01x06" H 1068 3666 50  0000 C CNN
 F 2 "xrstf:PinHeader_1x06_P2.54mm_Vertical" H 1150 4100 50  0001 C CNN
 F 3 "~" H 1150 4100 50  0001 C CNN
 	1    1150 4100
-	-1   0    0    1
+	-1   0    0    1   
 $EndComp
 $Comp
 L power:+3V3 #PWR01
@@ -634,7 +611,7 @@ F 1 "+3V3" H 1315 1673 50  0000 C CNN
 F 2 "" H 1300 1500 50  0001 C CNN
 F 3 "" H 1300 1500 50  0001 C CNN
 	1    1300 1500
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	1300 1500 1300 1750
@@ -647,7 +624,7 @@ F 1 "GNDREF" H 1305 2077 50  0000 C CNN
 F 2 "" H 1300 2250 50  0001 C CNN
 F 3 "" H 1300 2250 50  0001 C CNN
 	1    1300 2250
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	1300 2050 1300 2250
@@ -670,7 +647,7 @@ F 1 "+3V3" H 1565 3773 50  0000 C CNN
 F 2 "" H 1550 3600 50  0001 C CNN
 F 3 "" H 1550 3600 50  0001 C CNN
 	1    1550 3600
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 $Comp
 L power:GNDREF #PWR05
@@ -681,7 +658,7 @@ F 1 "GNDREF" H 1655 4277 50  0000 C CNN
 F 2 "" H 1650 4450 50  0001 C CNN
 F 3 "" H 1650 4450 50  0001 C CNN
 	1    1650 4450
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	1350 4300 1550 4300
@@ -722,37 +699,26 @@ Wire Wire Line
 Text Label 2550 3300 0    50   ~ 0
 BATT_SENS
 $Comp
-L Device:R R7
+L Device:R R8
 U 1 1 60E62BD0
 P 1450 6100
-F 0 "R7" H 1380 6146 50  0000 R CNN
+F 0 "R8" H 1380 6146 50  0000 R CNN
 F 1 "47k" H 1380 6055 50  0000 R CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 1380 6100 50  0001 C CNN
 F 3 "~" H 1450 6100 50  0001 C CNN
 	1    1450 6100
-	-1   0    0    -1
+	-1   0    0    -1  
 $EndComp
 $Comp
-L Device:R R10
+L Device:R R9
 U 1 1 60E6326F
 P 1450 6600
-F 0 "R10" H 1380 6646 50  0000 R CNN
+F 0 "R9" H 1380 6646 50  0000 R CNN
 F 1 "22k" H 1380 6555 50  0000 R CNN
 F 2 "Resistor_SMD:R_0805_2012Metric" V 1380 6600 50  0001 C CNN
 F 3 "~" H 1450 6600 50  0001 C CNN
 	1    1450 6600
-	-1   0    0    -1
-$EndComp
-$Comp
-L power:+3V3 #PWR08
-U 1 1 60E636CB
-P 1450 5800
-F 0 "#PWR08" H 1450 5650 50  0001 C CNN
-F 1 "+3V3" H 1465 5973 50  0000 C CNN
-F 2 "" H 1450 5800 50  0001 C CNN
-F 3 "" H 1450 5800 50  0001 C CNN
-	1    1450 5800
-	1    0    0    -1
+	-1   0    0    -1  
 $EndComp
 Wire Wire Line
 	1450 5800 1450 5950
@@ -774,7 +740,7 @@ F 1 "GNDREF" H 1455 6777 50  0000 C CNN
 F 2 "" H 1450 6950 50  0001 C CNN
 F 3 "" H 1450 6950 50  0001 C CNN
 	1    1450 6950
-	1    0    0    -1
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	1450 6750 1450 6850
@@ -787,7 +753,7 @@ F 1 "100nF" H 1735 6645 50  0000 R CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric" H 1888 6450 50  0001 C CNN
 F 3 "~" H 1850 6600 50  0001 C CNN
 	1    1850 6600
-	-1   0    0    1
+	-1   0    0    1   
 $EndComp
 Wire Wire Line
 	1450 6350 1850 6350
@@ -814,4 +780,92 @@ Text Notes 1050 7400 0    50   ~ 0
 with 3.3V, this gives 0..1.05V on BATT_SENS\nTOUT is max 1.1V
 Wire Wire Line
 	4000 1600 4000 2100
+$Comp
+L Device:Q_NPN_BEC Q4
+U 1 1 61409855
+P 6250 8650
+F 0 "Q4" H 6441 8696 50  0000 L CNN
+F 1 "Q_NPN_BEC" H 6441 8605 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 6450 8750 50  0001 C CNN
+F 3 "~" H 6250 8650 50  0001 C CNN
+	1    6250 8650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR0102
+U 1 1 6140A42A
+P 6350 8250
+F 0 "#PWR0102" H 6350 8100 50  0001 C CNN
+F 1 "+3V3" H 6365 8423 50  0000 C CNN
+F 2 "" H 6350 8250 50  0001 C CNN
+F 3 "" H 6350 8250 50  0001 C CNN
+	1    6350 8250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 8450 6350 8250
+$Comp
+L power:+3.3VP #PWR0103
+U 1 1 6140EF27
+P 6350 9050
+F 0 "#PWR0103" H 6500 9000 50  0001 C CNN
+F 1 "+3.3VP" H 6365 9223 50  0000 C CNN
+F 2 "" H 6350 9050 50  0001 C CNN
+F 3 "" H 6350 9050 50  0001 C CNN
+	1    6350 9050
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6350 8850 6350 9050
+Text Label 5400 8650 0    50   ~ 0
+PWR_ENABLE
+Wire Wire Line
+	6050 8650 5400 8650
+Wire Notes Line
+	6950 9350 6950 7950
+Wire Notes Line
+	6950 7950 5950 7950
+Wire Notes Line
+	5950 7950 5950 9350
+Wire Notes Line
+	5950 9350 6950 9350
+Text Notes 5950 7900 0    50   ~ 0
+Power for sensor/battery measurement
+$Comp
+L power:+3.3VP #PWR0104
+U 1 1 6142BD0F
+P 8700 6000
+F 0 "#PWR0104" H 8850 5950 50  0001 C CNN
+F 1 "+3.3VP" H 8715 6173 50  0000 C CNN
+F 2 "" H 8700 6000 50  0001 C CNN
+F 3 "" H 8700 6000 50  0001 C CNN
+	1    8700 6000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VP #PWR0105
+U 1 1 6142E1CD
+P 6550 2150
+F 0 "#PWR0105" H 6700 2100 50  0001 C CNN
+F 1 "+3.3VP" H 6565 2323 50  0000 C CNN
+F 2 "" H 6550 2150 50  0001 C CNN
+F 3 "" H 6550 2150 50  0001 C CNN
+	1    6550 2150
+	1    0    0    -1  
+$EndComp
+Text Label 5400 3050 2    50   ~ 0
+PWR_ENABLE
+Wire Wire Line
+	4600 3050 5400 3050
+$Comp
+L power:+3.3VP #PWR0107
+U 1 1 61452289
+P 1450 5800
+F 0 "#PWR0107" H 1600 5750 50  0001 C CNN
+F 1 "+3.3VP" H 1465 5973 50  0000 C CNN
+F 2 "" H 1450 5800 50  0001 C CNN
+F 3 "" H 1450 5800 50  0001 C CNN
+	1    1450 5800
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
