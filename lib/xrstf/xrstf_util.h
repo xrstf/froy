@@ -3,10 +3,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define SET_BIT(byte, pos) (byte |= (1U << (pos)))
-#define CLEAR_BIT(byte, pos) (byte &= (~(1U << (pos))))
+#define SET_BIT(byte, pos)    (byte |= (1U << (pos)))
+#define CLEAR_BIT(byte, pos)  (byte &= (~(1U << (pos))))
 #define TOGGLE_BIT(byte, pos) (byte ^= (1U << (pos)))
-#define CHECK_BIT(byte, pos) (byte & (1UL << (pos)))
+#define CHECK_BIT(byte, pos)  (byte & (1UL << (pos)))
 
 #define SET_BIT_TO_VALUE(byte, pos, high) (high ? SET_BIT(byte, pos) : CLEAR_BIT(byte, pos))
 

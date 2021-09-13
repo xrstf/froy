@@ -8,4 +8,4 @@ namespace wifi {
 
 	void connect();
 	void disconnect();
-}
+} // namespace wifi

@@ -23,10 +23,10 @@ namespace sensor {
 		uint8_t humidityRetries;
 	};
 
-	const char* typeName(char type);
+	const char *typeName(char type);
 	char decodeTypeName(const char *typeName);
 
 	bool setup(eeprom::data *config);
 	bool read(measurement *m, eeprom::data *config);
 	bool test(char address, char sensorType);
-}
+} // namespace sensor

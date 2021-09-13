@@ -2,12 +2,11 @@
 
 #include <Arduino.h>
 
-#define LOAD_EEPROM(var) \
-	struct eeprom::data var; \
+#define LOAD_EEPROM(var)                                                                                               \
+	struct eeprom::data var;                                                                                           \
 	eeprom::load(&var);
 
-#define SAVE_EEPROM(var) \
-	eeprom::save(&var);
+#define SAVE_EEPROM(var) eeprom::save(&var);
 
 namespace eeprom {
 	const char VERSION = 0x02;
@@ -59,6 +58,6 @@ namespace eeprom {
 	void setDefaults(data *data);
 	void load(data *data);
 	void save(data *data);
-	bool updateFromJSON(data *config, const String& json, char *otaConstraintOut);
+	bool updateFromJSON(data *config, const String &json, char *otaConstraintOut);
 	bool hasFingerprint(const char fingerprint[FINGERPRINT_BYTES]);
-}
+} // namespace eeprom

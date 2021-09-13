@@ -1,11 +1,11 @@
 #include "eeprom.h"
 #include "util.h"
-#include <xrstf_util.h>
-#include <xrstf_arduino_util.h>
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <IPAddress.h>
 #include <string.h>
+#include <xrstf_arduino_util.h>
+#include <xrstf_util.h>
 
 namespace wifi {
 	bool connected;
@@ -49,4 +49,4 @@ namespace wifi {
 			connected = false;
 		}
 	}
-}
+} // namespace wifi
