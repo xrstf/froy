@@ -12,7 +12,5 @@ namespace multimeter {
 	};
 
 	void setup();
-	void turnOn();
-	void turnOff();
 	void read(measurement *measurement, eeprom::data *config);
 } // namespace multimeter

@@ -84,15 +84,11 @@ namespace cli {
 		}
 
 		if (data.sensorAddress != 0) {
-			multimeter::turnOn();
-
 			if (!sensor::test(data.sensorAddress, data.sensorType)) {
 				// This is just a warning, otherwise it would be impossible to switch from
 				// BME280 @ 0x76 to BME680 @ 0x77.
 				xrstf::serialPrintf("Warning: This sensor type does not respond at address 0x%x.\n", data.sensorAddress);
 			}
-
-			multimeter::turnOff();
 		}
 
 		SAVE_EEPROM(data);
@@ -118,14 +114,10 @@ namespace cli {
 			return;
 		}
 
-		multimeter::turnOn();
-
 		if (!sensor::test(address, data.sensorType)) {
 			xrstf::serialPrintf("Error: No I2C device responds to address 0x%x.\n", address);
 			return;
 		}
-
-		multimeter::turnOff();
 
 		data.sensorAddress = address;
 		SAVE_EEPROM(data);
@@ -138,15 +130,11 @@ namespace cli {
 
 		xrstf::serialPrintf("Scanning for I²C %s sensors...\n", sensor::typeName(data.sensorType));
 
-		multimeter::turnOn();
-
 		for (uint8_t address = 0; address <= 127; ++address) {
 			if (sensor::test(address, data.sensorType)) {
 				xrstf::serialPrintf("Found sensor at 0x%x.\n", address);
 			}
 		}
-
-		multimeter::turnOff();
 
 		Serial.println("Scan completed.");
 	}

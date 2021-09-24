@@ -36,22 +36,8 @@ namespace multimeter {
 		return (uint8_t)(raw / 1.25);
 	}
 
-	void setupPowerTransistor() {
-		pinMode(POWER_PIN, OUTPUT);
-		turnOff();
-	}
-
-	void turnOn() {
-		digitalWrite(POWER_PIN, HIGH);
-	}
-
-	void turnOff() {
-		digitalWrite(POWER_PIN, LOW);
-	}
-
 	void setup() {
 		setupBattery();
-		setupPowerTransistor();
 	}
 
 	void read(measurement *m, eeprom::data *config) {
@@ -59,17 +45,12 @@ namespace multimeter {
 			return;
 		}
 
-		turnOn();
-
 		uint32_t start = millis();
 
 		// read sensor data
 		if (sensor::setup(config)) {
 			sensor::read(&m->sensor, config);
 		}
-
-		// turn off ASAP, to save as many pico amps as possible ^^
-		turnOff();
 
 		// read battery
 		m->batteryRaw = readBattery();
