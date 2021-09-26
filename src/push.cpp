@@ -29,6 +29,8 @@ bool pushHTTP(eeprom::data *config, String body) {
 
 	httpClient.addHeader("Content-Type", "application/json");
 	httpClient.setUserAgent(ua);
+	httpClient.setTimeout(10000);
+	httpClient.setReuse(false);
 
 	int responseCode = httpClient.POST(body.c_str());
 	if (responseCode < 0) {
