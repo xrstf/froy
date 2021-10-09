@@ -82,7 +82,7 @@ namespace webserver {
 		memset(buf, 0, sizeof(buf));
 		sprintf(buf, "froy_info{device_name=\"%s\",sensor=\"%s\",version=\"%s\"} 1\r\n", config.deviceName, sensorType, FROY_VERSION);
 
-		response += "# HELP froy_info The current info in degress Celsius.\r\n";
+		response += "# HELP froy_info Information about this device.\r\n";
 		response += "# TYPE froy_info gauge\r\n";
 		response += buf;
 

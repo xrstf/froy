@@ -211,7 +211,7 @@ namespace cli {
 		}
 
 		if (config.sensorAddress == 0x0) {
-			Serial.println("Error: No BME address configured yet, use 'set-bme-address XX'.");
+			Serial.println("Error: No sensor address configured yet, use 'set-sensor-address XX'.");
 			return;
 		}
 

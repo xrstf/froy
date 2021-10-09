@@ -63,9 +63,9 @@ bool pushHTTPS(eeprom::data *config, String body) {
 		return false;
 	}
 
-	char ua[32];
+	char ua[128];
 	memset(ua, 0, sizeof(ua));
-	sprintf(ua, "froy/%s", FROY_VERSION);
+	sprintf(ua, "froy-%s/%s", config->deviceName, FROY_VERSION);
 
 	httpClient.addHeader("Content-Type", "application/json");
 	httpClient.setUserAgent(ua);
