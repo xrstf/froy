@@ -43,7 +43,7 @@ namespace webserver {
 		multimeter::measurement m;
 		multimeter::read(&m, &config);
 
-		StaticJsonDocument<256> doc;
+		StaticJsonDocument<384> doc;
 
 		doc["deviceName"]         = config.deviceName;
 		doc["appVersion"]         = FROY_VERSION;
@@ -58,6 +58,7 @@ namespace webserver {
 		doc["pressureRetries"]    = m.sensor.pressureRetries;
 		doc["humidityRetries"]    = m.sensor.humidityRetries;
 		doc["battery"]            = m.battery;
+		doc["batteryRaw"]         = m.batteryRaw;
 
 		String body;
 		serializeJson(doc, body);

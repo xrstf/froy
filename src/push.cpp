@@ -69,6 +69,8 @@ bool pushHTTPS(eeprom::data *config, String body) {
 
 	httpClient.addHeader("Content-Type", "application/json");
 	httpClient.setUserAgent(ua);
+	httpClient.setTimeout(10000);
+	httpClient.setReuse(false);
 
 	int responseCode = httpClient.POST(body.c_str());
 	if (responseCode < 0) {
@@ -85,22 +87,27 @@ bool pushHTTPS(eeprom::data *config, String body) {
 }
 
 bool pushMeasurement(eeprom::data *config, multimeter::measurement *measurement) {
-	StaticJsonDocument<256> doc;
+	StaticJsonDocument<384> doc;
 
-	doc["deviceName"]         = config->deviceName;
-	doc["appVersion"]         = FROY_VERSION;
-	doc["sensorType"]         = sensor::typeName(config->sensorType);
-	doc["temperature"]        = measurement->sensor.temperature;
-	doc["pressure"]           = measurement->sensor.pressure;
-	doc["humidity"]           = measurement->sensor.humidity;
-	doc["temperatureOffset"]  = config->temperatureOffset;
-	doc["pressureOffset"]     = config->pressureOffset;
-	doc["humidityOffset"]     = config->humidityOffset;
-	doc["temperatureRetries"] = measurement->sensor.temperatureRetries;
-	doc["pressureRetries"]    = measurement->sensor.pressureRetries;
-	doc["humidityRetries"]    = measurement->sensor.humidityRetries;
-	doc["duration"]           = measurement->duration;
-	doc["battery"]            = measurement->battery;
+	// shorter keys do not reduce ArduinoJSON's memory usage, but still keeps
+	// the resulting JSON document smaller. Smaller means less RAM and faster
+	// network roundtrips, so it's good(tm).
+
+	/* deviceName */ doc["dn"]         = config->deviceName;
+	/* appVersion */ doc["av"]         = FROY_VERSION;
+	/* sensorType */ doc["st"]         = sensor::typeName(config->sensorType);
+	/* temperature */ doc["t"]         = measurement->sensor.temperature;
+	/* pressure */ doc["p"]            = measurement->sensor.pressure;
+	/* humidity */ doc["h"]            = measurement->sensor.humidity;
+	/* temperatureOffset */ doc["to"]  = config->temperatureOffset;
+	/* pressureOffset */ doc["po"]     = config->pressureOffset;
+	/* humidityOffset */ doc["ho"]     = config->humidityOffset;
+	/* temperatureRetries */ doc["tr"] = measurement->sensor.temperatureRetries;
+	/* pressureRetries */ doc["pr"]    = measurement->sensor.pressureRetries;
+	/* humidityRetries */ doc["hr"]    = measurement->sensor.humidityRetries;
+	/* duration */ doc["d"]            = measurement->duration;
+	/* battery */ doc["b"]             = measurement->battery;
+	/* batteryRaw */ doc["br"]         = measurement->batteryRaw;
 
 	String body;
 	serializeJson(doc, body);
