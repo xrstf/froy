@@ -1,0 +1,556 @@
+Cmp-Mod V01 Created by Cvpcb (2015-02-06 BZR 5410)-product   date = Mon 09 Feb 2015 04:12:04 PM PST
+
+BeginCmp
+TimeStamp = /604E6D4E;
+Reference = BOOT8267;
+ValeurCmp = SW-TACTILE-PTS840P;
+IdModule  = WE-SWITCH_PTS840P;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E6E16;
+Reference = C1;
+ValeurCmp = CAPACITOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E6EDE;
+Reference = C2;
+ValeurCmp = CAPACITOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E6FA6;
+Reference = C3;
+ValeurCmp = CAPACITOR-0603;
+IdModule  = WE-RCL_C0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E706E;
+Reference = C4;
+ValeurCmp = CAPACITOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E7136;
+Reference = C5;
+ValeurCmp = CAPACITOR-0603;
+IdModule  = WE-RCL_C0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E71FE;
+Reference = C6;
+ValeurCmp = CAPACITOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E72C6;
+Reference = C7;
+ValeurCmp = CAPACITOR-1206;
+IdModule  = WE-RCL_C1206;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E738E;
+Reference = C8;
+ValeurCmp = CAPACITOR-1206;
+IdModule  = WE-RCL_C1206;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E7456;
+Reference = C9;
+ValeurCmp = CAPACITOR-1206;
+IdModule  = WE-RCL_C1206;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E751E;
+Reference = D1;
+ValeurCmp = DIODE-SOD323;
+IdModule  = WE-RCL_SOD323;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E75E6;
+Reference = D2;
+ValeurCmp = D_ESD5V3U2U-03F;
+IdModule  = WE-RCL_SOT723;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E76AE;
+Reference = ESP8266;
+ValeurCmp = ESP-WROOM02;
+IdModule  = WE-CHIP_ESP-WROOM02;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E7C26;
+Reference = IC1;
+ValeurCmp = CP2102N-QFN24;
+IdModule  = WE-CHIP_QFN24-PAD;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E7CEE;
+Reference = IC2;
+ValeurCmp = VREG-TS1117CW-3V3;
+IdModule  = WE-POWER_SOT223;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E7DB6;
+Reference = J1;
+ValeurCmp = MA10-1;
+IdModule  = WE-CON_MA10-1;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E7E7E;
+Reference = J2;
+ValeurCmp = MA10-1;
+IdModule  = WE-CON_MA10-1;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E7F46;
+Reference = LOGO1;
+ValeurCmp = LOGO_SPARK-4;
+IdModule  = WE-SYMBOL_SPARK_4MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E800E;
+Reference = LOGO2;
+ValeurCmp = LOGO_OSHW-2;
+IdModule  = WE-SYMBOL_OSHW_2MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E80D6;
+Reference = LOGO3;
+ValeurCmp = LOGO_WEEE-4;
+IdModule  = WE-SYMBOL_WEEE_4MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E819E;
+Reference = LOGO4;
+ValeurCmp = LOGO_CE-2;
+IdModule  = WE-SYMBOL_CE_2MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E83F6;
+Reference = PWR8267;
+ValeurCmp = LED-0603;
+IdModule  = WE-OPTO_C0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E84BE;
+Reference = R1;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8586;
+Reference = R2;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E864E;
+Reference = R3;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8716;
+Reference = R4;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E87DE;
+Reference = R5;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E88A6;
+Reference = R6;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E896E;
+Reference = R7;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8A36;
+Reference = R8;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8AFE;
+Reference = R9;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8BC6;
+Reference = R10;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8C8E;
+Reference = R11;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8D56;
+Reference = R12;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8E1E;
+Reference = R13;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8EE6;
+Reference = R14;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E8FAE;
+Reference = R15;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9076;
+Reference = R16;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E913E;
+Reference = RST8267;
+ValeurCmp = SW-TACTILE-PTS840P;
+IdModule  = WE-SWITCH_PTS840P;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9206;
+Reference = RU8267;
+ValeurCmp = RESISTOR-0402;
+IdModule  = WE-RCL_C0402;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E92CE;
+Reference = RX8267;
+ValeurCmp = LED-0603;
+IdModule  = WE-OPTO_C0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9396;
+Reference = T1;
+ValeurCmp = BSS138PS;
+IdModule  = WE-TRANSISTOR_SOT363;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E94C2;
+Reference = TX8267;
+ValeurCmp = LED-0603;
+IdModule  = WE-OPTO_C0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E958A;
+Reference = USB8267;
+ValeurCmp = USB-MICROB-2;
+IdModule  = WE-CON_USB-MICROB-10118194;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9652;
+Reference = VP_0;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E971A;
+Reference = VP_1;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E97E2;
+Reference = VP_2;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E98AA;
+Reference = VP_3;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9972;
+Reference = VP_4;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9A3A;
+Reference = VP_5;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9B02;
+Reference = VP_6;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9BCA;
+Reference = VP_7;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9C92;
+Reference = VP_8;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9D5A;
+Reference = VP_9;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9E22;
+Reference = VP_10;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9EEA;
+Reference = VP_11;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604E9FB2;
+Reference = VP_12;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA07A;
+Reference = VP_13;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA142;
+Reference = VP_14;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA20A;
+Reference = VP_15;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA2D2;
+Reference = VP_16;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA39A;
+Reference = VP_17;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA462;
+Reference = VP_18;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA52A;
+Reference = VP_19;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA5F2;
+Reference = VP_20;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA6BA;
+Reference = VP_21;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA782;
+Reference = VP_22;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA84A;
+Reference = VP_23;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA912;
+Reference = VP_24;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EA9DA;
+Reference = VP_25;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EAAA2;
+Reference = VP_26;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EAB6A;
+Reference = VP_27;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EAC32;
+Reference = VP_28;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EACFA;
+Reference = VP_29;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EADC2;
+Reference = VP_30;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EAE8A;
+Reference = X1;
+ValeurCmp = PASSER-07;
+IdModule  = WE-SYMBOL_PASSER_07MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EAF52;
+Reference = X2;
+ValeurCmp = PASSER-07;
+IdModule  = WE-SYMBOL_PASSER_07MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EB01A;
+Reference = X3;
+ValeurCmp = PASSER-07;
+IdModule  = WE-SYMBOL_PASSER_07MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /604EB0E2;
+Reference = X4;
+ValeurCmp = PASSER-07;
+IdModule  = WE-SYMBOL_PASSER_07MM;
+EndCmp
+
+EndListe
