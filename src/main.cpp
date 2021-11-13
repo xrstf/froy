@@ -67,7 +67,7 @@ void setup() {
 	LOAD_EEPROM(data);
 
 	if (data.sleepMinutes > 0) {
-		runSleepMode(&data, bootTime); // this function usually doesn't return
+		runSleepMode(&data, bootTime); // this function _usually_ doesn't return
 	}
 
 	webserver::setup();
