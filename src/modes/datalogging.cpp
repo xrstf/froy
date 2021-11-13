@@ -1,4 +1,4 @@
-#include "log.h"
+#include "modes/datalogging.h"
 #include "cli.h"
 #include "multimeter.h"
 #include "rtc.h"
