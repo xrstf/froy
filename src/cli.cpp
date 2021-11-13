@@ -502,7 +502,12 @@ namespace cli {
 		} else {
 			xrstf::serialPrintf("Data Logging......: yes\n");
 			xrstf::serialPrintf("Time Series.......: %s\n", data.seriesName);
-			xrstf::serialPrintf("Max Data Points...: %d\n", data.maxSeriesPoints);
+
+			if (data.maxSeriesPoints == 0) {
+				xrstf::serialPrintf("Max Data Points...: %d\n", data.maxSeriesPoints);
+			} else {
+				xrstf::serialPrintf("Max Data Points...: (unlimited)\n");
+			}
 		}
 
 		char buf[41] = {0};
@@ -739,7 +744,7 @@ namespace cli {
 				handleBatteryCommand();
 			} else if (strcmp(commandStr, "reboot") == 0 || strcmp(commandStr, "restart") == 0 || strcmp(commandStr, "reset") == 0) {
 				handleRestartCommand();
-			} else if (strcmp(commandStr, "show-configuration") == 0) {
+			} else if (strcmp(commandStr, "config") == 0 || strcmp(commandStr, "show-configuration") == 0) {
 				handleShowConfigurationCommand();
 			} else if (strcmp(commandStr, "measure") == 0) {
 				handleMeasureCommand();
