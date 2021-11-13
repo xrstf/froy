@@ -26,9 +26,9 @@ namespace wifi {
 			WiFi.setAutoReconnect(true);
 			WiFi.begin(config->ssid, config->password);
 
-			int attempts = 60; // 60 times 500ms = 30s timeout
+			int attempts = 150; // 150 times 200ms = 30s timeout
 			while (attempts > 0 && WiFi.status() != WL_CONNECTED) {
-				delay(500);
+				delay(200);
 				attempts--;
 			}
 
