@@ -75,7 +75,7 @@ namespace eeprom {
 		memcpy(v3.otaFingerprint, v2.otaFingerprint, sizeof(v3.otaFingerprint));
 		memcpy(v3.ssid, v2.ssid, sizeof(v3.ssid));
 		memcpy(v3.password, v2.password, sizeof(v3.password));
-		memcpy(v3.seriesName, 0x0, sizeof(v3.seriesName));
+		memset(v3.seriesName, 0x0, sizeof(v3.seriesName));
 
 		EEPROM.begin(sizeof(data));
 		EEPROM.put(0, v3);
@@ -133,7 +133,7 @@ namespace eeprom {
 		memset(d->otaFingerprint, 0x0, sizeof(d->otaFingerprint));
 		memset(d->ssid, 0x0, sizeof(d->ssid));
 		memset(d->password, 0x0, sizeof(d->password));
-		memcpy(d->seriesName, 0x0, sizeof(d->seriesName));
+		memset(d->seriesName, 0x0, sizeof(d->seriesName));
 	}
 
 	void load(data *d) {

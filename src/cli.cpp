@@ -3,15 +3,20 @@
 #include "eeprom.h"
 #include "multimeter.h"
 #include "ota.h"
+#include "rtc.h"
 #include "sensor.h"
 #include "util.h"
 #include "webserver.h"
+#include "datalogger.h"
 #include "wifi.h"
 #include <Arduino.h>
 #include <EEPROM.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFiMulti.h>
+#include <NTPClient.h>
+#include <TimeLib.h>
 #include <WiFiClient.h>
+#include <WiFiUdp.h>
 #include <xrstf_arduino_util.h>
 #include <xrstf_util.h>
 
@@ -65,7 +70,8 @@ namespace cli {
 	void handleEnableWifiCommand() {
 		toggleWifi(true);
 		Serial.println("OK: Successfully enabled WiFi.");
-		wifi::connect();
+		LOAD_EEPROM(config);
+		wifi::connect(&config);
 	}
 
 	void handleDisableWifiCommand() {
@@ -352,8 +358,8 @@ namespace cli {
 	void handleSetSleepMinutesCommand(char *flags) {
 		LOAD_EEPROM(data);
 
-		if (strlen(data.pushURL) == 0) {
-			Serial.println("Error: A push URL must be configured first.");
+		if (strlen(data.pushURL) == 0 && strlen(data.seriesName) == 0) {
+			Serial.println("Error: A push URL or time series name must be configured first.");
 			return;
 		}
 
@@ -387,9 +393,78 @@ namespace cli {
 		SAVE_EEPROM(data);
 
 		if (minutesInt == 0) {
-			Serial.println("OK: Push mode disabled.");
+			Serial.println("OK: Running in stand-by mode now.");
+		} else if (strlen(data.seriesName) > 0) {
+			xrstf::serialPrintf("OK: Data logging mode enabled, going to sleep for %d minutes between samples.\n", data.sleepMinutes);
 		} else {
 			xrstf::serialPrintf("OK: Push mode enabled, going to sleep for %d minutes between pushes.\n", data.sleepMinutes);
+		}
+	}
+
+	void handleSetTimeSeriesCommand(char *flags) {
+		LOAD_EEPROM(data);
+
+		if (strlen(flags) == 0) {
+			Serial.println("Error: The time series name may not be empty.");
+			return;
+		}
+
+		if (strlen(flags) > 32) {
+			Serial.println("Error: Time series name must be at most 32 characters.");
+			return;
+		}
+
+		strncpy(data.seriesName, flags, sizeof(data.seriesName));
+		SAVE_EEPROM(data);
+
+		xrstf::serialPrintf("OK: Going to log data as %s time series.\n", data.seriesName);
+	}
+
+	void handleDisableTimeSeriesCommand() {
+		LOAD_EEPROM(data);
+		memset(data.seriesName, 0x0, sizeof(data.seriesName));
+		SAVE_EEPROM(data);
+
+		xrstf::serialPrintf("OK: Time series mode disabled.\n");
+	}
+
+	void handleSetTimeSeriesPointsCommand(char *flags) {
+		LOAD_EEPROM(data);
+
+		if (strlen(flags) == 0) {
+			Serial.println("Error: A number must be provided.");
+			return;
+		}
+
+		if (strlen(flags) > 5) {
+			Serial.println("Error: Number of data points must be at most 5 digits long.");
+			return;
+		}
+
+		int pointsInt = 0;
+		if (!xrstf::safeStringToInt(flags, &pointsInt)) {
+			Serial.println("Error: Invalid number given.");
+			return;
+		}
+
+		if (pointsInt < 0) {
+			Serial.println("Error: Number cannot be negative; use 0 to log data indefinitely.");
+			return;
+		}
+
+		if (pointsInt > 16000) {
+			Serial.println("Error: Limit must be below 16k.");
+			return;
+		}
+
+		data.maxSeriesPoints       = (uint16_t)pointsInt;
+		data.remainingSeriesPoints = data.maxSeriesPoints;
+		SAVE_EEPROM(data);
+
+		if (pointsInt == 0) {
+			Serial.println("OK: Limit removed, logging data indefinitely now.");
+		} else {
+			xrstf::serialPrintf("OK: Going to log at most %d points before sleeping indefinitely.\n", data.maxSeriesPoints);
 		}
 	}
 
@@ -420,6 +495,14 @@ namespace cli {
 			Serial.println("Push enabled......: no");
 		} else {
 			xrstf::serialPrintf("Push enabled......: yes (every %d minute(s))\n", data.sleepMinutes);
+		}
+
+		if (strlen(data.seriesName) == 0) {
+			Serial.println("Data Logging......: no");
+		} else {
+			xrstf::serialPrintf("Data Logging......: yes\n");
+			xrstf::serialPrintf("Time Series.......: %s\n", data.seriesName);
+			xrstf::serialPrintf("Max Data Points...: %d\n", data.maxSeriesPoints);
 		}
 
 		char buf[41] = {0};
@@ -499,6 +582,73 @@ namespace cli {
 		ota::update(url, constraint, data.otaFingerprint);
 	}
 
+	void handleGetNTPTimeCommand() {
+		if (!wifi::connected) {
+			Serial.println("Error: Must be connected to WiFi.");
+			return;
+		}
+
+		// setup NTP client
+		WiFiUDP ntpUDP;
+		NTPClient timeClient(ntpUDP);
+
+		// fetch current UNIX timestamp
+		timeClient.begin();
+		if (timeClient.update()) {
+			time_t epoch = timeClient.getEpochTime();
+
+			tmElements_t tm;
+			breakTime(epoch, tm);
+
+			rtc::printToSerial(tm);
+		}
+		timeClient.end();
+	}
+
+	void handleShowTimeSeriesCommand(char *flags) {
+		if (!flags || strlen(flags) == 0) {
+			LOAD_EEPROM(data);
+			if (strlen(data.seriesName) == 0) {
+				Serial.println("Error: No time series name configured or given in command.");
+				return;
+			}
+
+			flags = data.seriesName;
+		}
+
+		Datalogger dl(LittleFS, "m");
+		if (!dl.begin()) {
+			Serial.println("Failed to init LittleFS.");
+			return;
+		}
+
+		dl.printMetric(flags);
+		dl.end();
+	}
+
+	void handleClearTimeSeriesCommand(char *flags) {
+		if (!flags || strlen(flags) == 0) {
+			LOAD_EEPROM(data);
+			if (strlen(data.seriesName) == 0) {
+				Serial.println("Error: No time series name configured or given in command.");
+				return;
+			}
+
+			flags = data.seriesName;
+		}
+
+		Datalogger dl(LittleFS, "m");
+		if (!dl.begin()) {
+			Serial.println("Failed to init LittleFS.");
+			return;
+		}
+
+		dl.removeMetric(flags);
+		dl.end();
+
+		xrstf::serialPrintf("OK: Time series %s removed.\n", flags);
+	}
+
 	void clear() {
 		while (Serial.available() > 0) {
 			Serial.read();
@@ -541,6 +691,34 @@ namespace cli {
 				handleSetHumidityOffsetCommand(commandStr + strlen("set-humidity-offset "));
 			} else if (xrstf::startsWith(commandStr, "set-pressure-offset ")) {
 				handleSetPressureOffsetCommand(commandStr + strlen("set-pressure-offset "));
+			} else if (xrstf::startsWith(commandStr, "set-timeseries ")) {
+				handleSetTimeSeriesCommand(commandStr + strlen("set-timeseries "));
+			} else if (xrstf::startsWith(commandStr, "set-time-series ")) {
+				handleSetTimeSeriesCommand(commandStr + strlen("set-time-series "));
+			} else if (xrstf::startsWith(commandStr, "show-timeseries ")) {
+				handleShowTimeSeriesCommand(commandStr + strlen("show-timeseries "));
+			} else if (xrstf::startsWith(commandStr, "show-time-series ")) {
+				handleShowTimeSeriesCommand(commandStr + strlen("show-time-series "));
+			} else if (xrstf::startsWith(commandStr, "clear-timeseries ")) {
+				handleClearTimeSeriesCommand(commandStr + strlen("clear-timeseries "));
+			} else if (xrstf::startsWith(commandStr, "clear-time-series ")) {
+				handleClearTimeSeriesCommand(commandStr + strlen("clear-time-series "));
+			} else if (xrstf::startsWith(commandStr, "set-time-series-points ")) {
+				handleSetTimeSeriesPointsCommand(commandStr + strlen("set-time-series-points "));
+			} else if (xrstf::startsWith(commandStr, "disable-timeseries")) {
+				handleDisableTimeSeriesCommand();
+			} else if (xrstf::startsWith(commandStr, "disable-time-series")) {
+				handleDisableTimeSeriesCommand();
+			} else if (strcmp(commandStr, "ntp-time") == 0) {
+				handleGetNTPTimeCommand();
+			} else if (strcmp(commandStr, "show-timeseries") == 0) {
+				handleShowTimeSeriesCommand(NULL);
+			} else if (strcmp(commandStr, "show-time-series") == 0) {
+				handleShowTimeSeriesCommand(NULL);
+			} else if (strcmp(commandStr, "clear-timeseries") == 0) {
+				handleClearTimeSeriesCommand(NULL);
+			} else if (strcmp(commandStr, "clear-time-series") == 0) {
+				handleClearTimeSeriesCommand(NULL);
 			} else if (strcmp(commandStr, "enable-webserver") == 0) {
 				handleEnableWebserverCommand();
 			} else if (strcmp(commandStr, "disable-webserver") == 0) {

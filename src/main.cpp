@@ -17,6 +17,7 @@
 #include "cli.h"
 #include "config.h"
 #include "eeprom.h"
+#include "log.h"
 #include "multimeter.h"
 #include "push.h"
 #include "sensor.h"
@@ -25,33 +26,24 @@
 #include "wifi.h"
 #include <xrstf_arduino_util.h>
 
-void runSleepMode(struct eeprom::data *config, long bootTime) {
-	// allow the user to disable the sleep mode if they're quick
-	// (they have the time it takes for the ESP to connect to wifi)
-	cli::handleCommand();
+void runSleepMode(eeprom::data *config, long bootTime) {
+	bool sleep = false;
 
-	// reload EEPROM data, in case the user disabled sleep mode
-	eeprom::load(config);
+	// if a series name is set, we're in data logging mode
+	if (strlen(config->seriesName) > 0) {
+		sleep = handleDataLoggingMode(config);
+	} else if (config->sleepMinutes > 0) {
+		sleep = handlePushMode(config);
+	}
 
-	if (config->sleepMinutes > 0) {
-		handlePushMode(config);
+	if (sleep) {
+		// deduct the time spent from the sleep time
+		long delayed     = millis() - bootTime;
+		long sleepMillis = (config->sleepMinutes * 60 * 1000) - delayed;
 
-		// Because the HTTP response to a push message can include
-		// a configuration snippet to reconfigure this device
-		// remotely, the push mode can also be disabled. Hence
-		// after handlePushMode() is done, config->sleepMinutes
-		// could be 0 and we must not attempt to go to deep sleep.
-		if (config->sleepMinutes > 0) {
-			delay(100);
+		xrstf::serialPrintf("Nighty night, see you in %ld seconds.\n", (sleepMillis / 1000));
 
-			// deduct the time spent from the sleep time
-			long delayed     = millis() - bootTime;
-			long sleepMillis = (config->sleepMinutes * 60 * 1000) - delayed;
-
-			xrstf::serialPrintf("Nighty night, see you in %ld seconds.\n", (sleepMillis / 1000));
-
-			ESP.deepSleep(sleepMillis * 1000);
-		}
+		ESP.deepSleep(sleepMillis * 1000);
 	}
 }
 
@@ -62,7 +54,6 @@ void setup() {
 	multimeter::setup();
 	cli::setup();
 	eeprom::init();
-	wifi::connect();
 
 	LOAD_EEPROM(data);
 
@@ -70,6 +61,7 @@ void setup() {
 		runSleepMode(&data, bootTime); // this function _usually_ doesn't return
 	}
 
+	wifi::connect(&data);
 	webserver::setup();
 	webserver::start();
 

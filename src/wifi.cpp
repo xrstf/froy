@@ -11,18 +11,20 @@ namespace wifi {
 	bool connected;
 	IPAddress localIP;
 
-	void connect() {
-		LOAD_EEPROM(data);
+	bool enabled(eeprom::data *config) {
+		return config->enableWifi && strlen(config->ssid) > 0 && strlen(config->password) > 0;
+	}
 
-		if (data.enableWifi && strlen(data.ssid) > 0 && strlen(data.password) > 0) {
-			xrstf::serialPrintf("Connecting to Wifi '%s'...\n", data.ssid);
+	void connect(eeprom::data *config) {
+		if (!connected && enabled(config)) {
+			xrstf::serialPrintf("Connecting to Wifi '%s'...\n", config->ssid);
 
 			char buf[128] = {0};
-			sprintf(buf, "froy-%s", data.deviceName);
+			sprintf(buf, "froy-%s", config->deviceName);
 
 			WiFi.hostname(buf);
 			WiFi.setAutoReconnect(true);
-			WiFi.begin(data.ssid, data.password);
+			WiFi.begin(config->ssid, config->password);
 
 			int attempts = 60; // 60 times 500ms = 30s timeout
 			while (attempts > 0 && WiFi.status() != WL_CONNECTED) {

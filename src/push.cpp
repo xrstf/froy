@@ -4,6 +4,8 @@
 #include "ota.h"
 #include "sensor.h"
 #include "util.h"
+#include "wifi.h"
+#include "cli.h"
 #include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
@@ -126,6 +128,28 @@ bool handlePushMode(eeprom::data *config) {
 		enableLED();
 	}
 
+	// in this mode we always push a HTTP message out and
+	// also use the time to establish the WiFi connect as the
+	// delay to allow incoming CLI requests via Serial.
+	wifi::connect(config);
+
+	// check if a command was sent
+	cli::handleCommand();
+
+	// reload EEPROM data, in case the user disabled sleep mode
+	eeprom::load(config);
+
+	// push mode got disabled
+	if (config->sleepMinutes == 0) {
+		disableLED();
+		return false; // go into standby mode
+	}
+
+	// if we could not connect, go back to sleep
+	if (!wifi::connected) {
+		return true;
+	}
+
 	multimeter::measurement m;
 	multimeter::read(&m, config);
 
@@ -142,5 +166,15 @@ bool handlePushMode(eeprom::data *config) {
 		ota::update(url, constraint, config->otaFingerprint);
 	}
 
-	return true;
+	// Because the HTTP response to a push message can include
+	// a configuration snippet to reconfigure this device
+	// remotely, the push mode can also be disabled. Hence
+	// after handlePushMode() is done, config->sleepMinutes
+	// could be 0 and we must not attempt to go to deep sleep.
+	if (config->sleepMinutes > 0) {
+		delay(100);
+		return true;
+	}
+
+	return false; // go into standby mode
 }

@@ -1,5 +1,6 @@
 #include "util.h"
 #include "config.h"
+#include <xrstf_arduino_util.h>
 
 bool pleaseRestart;
 

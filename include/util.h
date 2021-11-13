@@ -1,5 +1,6 @@
 #pragma once
 
+#include "eeprom.h"
 #include <Arduino.h>
 
 extern bool pleaseRestart;
@@ -11,3 +12,4 @@ void setupLED();
 void setLED(bool enabled);
 void enableLED();
 void disableLED();
+void goToSleep(eeprom::data *config, long bootTime);
