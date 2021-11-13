@@ -1,9 +1,10 @@
 #include "modes/datalogging.h"
 #include "cli.h"
+#include "datalogger.h"
 #include "multimeter.h"
 #include "rtc.h"
+#include "util.h"
 #include "wifi.h"
-#include "datalogger.h"
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 #include <xrstf_arduino_util.h>
@@ -62,12 +63,18 @@ bool handleDataLoggingMode(eeprom::data *config) {
 	// if the series name was removed, we end datalogging mode and
 	// go back into standby mode
 	if (config->sleepMinutes == 0 || strlen(config->seriesName) == 0) {
+		Serial.println("Data logging mode disabled, going into stand-by mode...");
 		return false;
 	}
 
 	// if we have reached the number of datapoints to make, go to sleep
 	if (config->maxSeriesPoints > 0 && config->remainingSeriesPoints == 0) {
+		xrstf::serialPrintf("Reached desired number (%d) of data points, going back to sleep.\n", config->maxSeriesPoints);
 		return true;
+	}
+
+	if (config->enableLED) {
+		enableLED();
 	}
 
 	// ensure clock is good
@@ -81,21 +88,32 @@ bool handleDataLoggingMode(eeprom::data *config) {
 	multimeter::measurement m;
 	multimeter::read(&m, config);
 
+	// we're supposed to just perform a certain number of measurements
+	if (config->maxSeriesPoints > 0) {
+		config->remainingSeriesPoints--;
+		eeprom::save(config);
+	}
+
 	// log it to memory
 	Datalogger dl(LittleFS, "m");
 	if (!dl.begin()) {
 		Serial.println("Failed to init LittleFS.");
+		disableLED();
 		return true; // good luck next time, go back to sleep
 	}
 
 	char timestamp[32];
-	sprintf(timestamp, "%04d-%02d-%02dT%02d:%02d:%02d", rtc::decodeYear(now.Year), now.Month, now.Day, now.Hour, now.Minute, now.Second);
+	sprintf(timestamp, "%04d%02d%02d%02d%02d%02d", rtc::decodeYear(now.Year), now.Month, now.Day, now.Hour, now.Minute, now.Second);
 
 	char data[64];
 	sprintf(data, "%s;%.2f;%.2f;%.2f;%d", timestamp, m.sensor.temperature, m.sensor.humidity, m.sensor.pressure, m.batteryRaw);
 
 	dl.appendData(config->seriesName, data);
 	dl.end();
+
+	Serial.println("Measurement logged.");
+
+	disableLED();
 
 	// we're done, let's go to sleep again
 	return true;
