@@ -9,12 +9,37 @@
 #define SAVE_EEPROM(var) eeprom::save(&var);
 
 namespace eeprom {
-	const char VERSION = 0x02;
+	const char VERSION = 0x03;
 
 	const int FINGERPRINT_BYTES = 20;
 
 	// data the latest version of the data that is persisted in EEPROM
 	struct data {
+		char signature[4];
+		char version;
+		bool enableWebserver;
+		bool enableWifi;
+		bool enableLED;
+		char sensorType;
+		char sensorAddress; // usually 0x77 or 0x76 for BME280/680
+		float temperatureOffset;
+		float humidityOffset;
+		float pressureOffset;
+		char sleepMinutes;
+		char deviceName[32];
+		char pushURL[128];
+		char pushFingerprint[FINGERPRINT_BYTES];
+		char otaURL[128];
+		char otaFingerprint[FINGERPRINT_BYTES];
+		char ssid[64];
+		char password[64];
+		char seriesName[64];
+		uint16_t maxSeriesPoints;
+		uint16_t remainingSeriesPoints;
+	};
+
+	// version 2 data
+	struct dataV2 {
 		char signature[4];
 		char version;
 		bool enableWebserver;

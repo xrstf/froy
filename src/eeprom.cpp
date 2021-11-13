@@ -47,6 +47,41 @@ namespace eeprom {
 		EEPROM.end();
 	}
 
+	void migrateV2toV3() {
+		dataV2 v2;
+		EEPROM.begin(sizeof(dataV2));
+		EEPROM.get(0, v2);
+		EEPROM.end();
+
+		data v3;
+		v3.version               = 0x03;
+		v3.enableWebserver       = v2.enableWebserver;
+		v3.enableWifi            = v2.enableWifi;
+		v3.enableLED             = v2.enableLED;
+		v3.sensorType            = v2.sensorType;
+		v3.sensorAddress         = v2.sensorAddress;
+		v3.temperatureOffset     = v2.temperatureOffset;
+		v3.humidityOffset        = v2.humidityOffset;
+		v3.pressureOffset        = v2.pressureOffset;
+		v3.sleepMinutes          = v2.sleepMinutes;
+		v3.maxSeriesPoints       = 0;
+		v3.remainingSeriesPoints = 0;
+
+		memcpy(v3.signature, signature, sizeof(v3.signature));
+		memcpy(v3.deviceName, v2.deviceName, sizeof(v3.deviceName));
+		memcpy(v3.pushURL, v2.pushURL, sizeof(v3.pushURL));
+		memcpy(v3.pushFingerprint, v2.pushFingerprint, sizeof(v3.pushFingerprint));
+		memcpy(v3.otaURL, v2.otaURL, sizeof(v3.otaURL));
+		memcpy(v3.otaFingerprint, v2.otaFingerprint, sizeof(v3.otaFingerprint));
+		memcpy(v3.ssid, v2.ssid, sizeof(v3.ssid));
+		memcpy(v3.password, v2.password, sizeof(v3.password));
+		memcpy(v3.seriesName, 0x0, sizeof(v3.seriesName));
+
+		EEPROM.begin(sizeof(data));
+		EEPROM.put(0, v3);
+		EEPROM.end();
+	}
+
 	/**
 	 * migrate and/or set defaults
 	 */
@@ -67,28 +102,29 @@ namespace eeprom {
 				data d;
 				setDefaults(&d);
 				save(&d);
+				return;
 			}
-
-			return;
 		}
 
-		// if (sig.version == N) {
-		// 	Serial.println("Migrating version N to N+1...");
-		// 	migrateVNtoVN+1();
-		// }
+		if (sig.version == 0x02) {
+			Serial.println("Migrating version 2 to 3...");
+			migrateV2toV3();
+		}
 	}
 
 	void setDefaults(data *d) {
-		d->version           = VERSION;
-		d->enableWebserver   = true;
-		d->enableWifi        = false;
-		d->enableLED         = true;
-		d->sensorType        = 0x0;
-		d->sensorAddress     = 0x76; // should work for most cheapo breakout boards
-		d->temperatureOffset = 0;
-		d->humidityOffset    = 0;
-		d->pressureOffset    = 0;
-		d->sleepMinutes      = 0;
+		d->version               = VERSION;
+		d->enableWebserver       = true;
+		d->enableWifi            = false;
+		d->enableLED             = true;
+		d->sensorType            = 0x0;
+		d->sensorAddress         = 0x76; // should work for most cheapo breakout boards
+		d->temperatureOffset     = 0;
+		d->humidityOffset        = 0;
+		d->pressureOffset        = 0;
+		d->sleepMinutes          = 0;
+		d->maxSeriesPoints       = 0;
+		d->remainingSeriesPoints = 0;
 		strncpy(d->signature, signature, sizeof(d->signature));
 		strncpy(d->deviceName, "froy", sizeof(d->deviceName));
 		memset(d->pushURL, 0x0, sizeof(d->pushURL));
@@ -97,6 +133,7 @@ namespace eeprom {
 		memset(d->otaFingerprint, 0x0, sizeof(d->otaFingerprint));
 		memset(d->ssid, 0x0, sizeof(d->ssid));
 		memset(d->password, 0x0, sizeof(d->password));
+		memcpy(d->seriesName, 0x0, sizeof(d->seriesName));
 	}
 
 	void load(data *d) {
