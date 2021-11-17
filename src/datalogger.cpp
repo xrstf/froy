@@ -97,8 +97,8 @@ bool Datalogger::printMetric(const String &metric) {
 	memset(buf, 0, sizeof(buf));
 
 	while (f.available()) {
-		f.readBytes(buf, sizeof(buf)-1);
-		Serial.write(buf);
+		size_t read = f.readBytes(buf, sizeof(buf)-1);
+		Serial.write(buf, read);
 	}
 
 	f.close();
