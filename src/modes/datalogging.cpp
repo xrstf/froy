@@ -1,6 +1,7 @@
 #include "modes/datalogging.h"
 #include "cli.h"
 #include "datalogger.h"
+#include "modes/push.h"
 #include "multimeter.h"
 #include "rtc.h"
 #include "util.h"
@@ -47,6 +48,39 @@ void setupClock(eeprom::data *config) {
 	wifi::disconnect();
 }
 
+void batchUpload(eeprom::data *config, Datalogger *dl) {
+	char filename[32];
+	dl->metricFilename(filename, config->seriesName);
+
+	// breaking the Datalogger abstraction here, because I do not know
+	// how to return a File object without it getting GC'ed... sorry.
+	File f = LittleFS.open(filename, "r");
+	if (!f) {
+		Serial.println("Failed to open file.");
+		return;
+	}
+
+	wifi::connect(config);
+	if (!wifi::connected) {
+		f.close();
+		return;
+	}
+
+	// try to upload the file
+	Serial.println("Pushing file...");
+	bool success = pushFile(config, config->seriesName, &f);
+	f.close();
+
+	// if this was successful, trim the current file down to 0
+	if (success) {
+		Serial.println("Push successful, cleaning up.");
+		dl->removeMetric(config->seriesName);
+
+		config->pointsSampled = 0;
+		eeprom::save(config);
+	}
+}
+
 bool handleDataLoggingMode(eeprom::data *config) {
 	// in this mode, we do not connect to the WiFi, so we must wait a
 	// short moment to give the user (me! you!) a chance to send a CLI
@@ -68,29 +102,32 @@ bool handleDataLoggingMode(eeprom::data *config) {
 	}
 
 	// if we have reached the number of datapoints to make, go to sleep
-	if (config->maxSeriesPoints > 0 && config->remainingSeriesPoints == 0) {
-		xrstf::serialPrintf("Reached desired number (%d) of data points, going back to sleep.\n", config->maxSeriesPoints);
+	if (config->maxSeriesPoints > 0 && config->pointsSampled >= config->maxSeriesPoints) {
+		xrstf::serialPrintf("Reached desired number (%d) of data points, going back to sleep.\n", config->pointsSampled);
 		return true;
-	}
-
-	if (config->enableLED) {
-		enableLED();
 	}
 
 	// ensure clock is good
 	setupClock(config);
+
+	if (config->enableLED) {
+		enableLED();
+	}
 
 	// get current date and time
 	tmElements_t now;
 	rtc::read(now); // this can still fail, if no chip is present or NTP failed
 
 	// make a measurement
+	Serial.println("Performing measurement...");
 	multimeter::measurement m;
 	multimeter::read(&m, config);
 
-	// we're supposed to just perform a certain number of measurements
-	if (config->maxSeriesPoints > 0) {
-		config->remainingSeriesPoints--;
+	// we're supposed to just perform a certain number of measurements, or we are supposed
+	// to make batch uploads; only in either of these cases do we actually count the samples,
+	// as not counting saves one eeprom::save() cycle.
+	if (config->maxSeriesPoints > 0 || config->batchUploadSize > 0) {
+		config->pointsSampled++;
 		eeprom::save(config);
 	}
 
@@ -109,9 +146,15 @@ bool handleDataLoggingMode(eeprom::data *config) {
 	sprintf(data, "%s;%.2f;%.2f;%.2f;%d", timestamp, m.sensor.temperature, m.sensor.humidity, m.sensor.pressure, m.batteryRaw);
 
 	dl.appendData(config->seriesName, data);
-	dl.end();
-
 	Serial.println("Measurement logged.");
+
+	// check if we need to try a batch upload now
+	if (config->batchUploadSize > 0 && config->pointsSampled >= config->batchUploadSize) {
+		Serial.println("Reached batch size, attempting upload...");
+		batchUpload(config, &dl);
+	}
+
+	dl.end();
 
 	disableLED();
 

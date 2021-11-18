@@ -54,18 +54,19 @@ namespace eeprom {
 		EEPROM.end();
 
 		data v3;
-		v3.version               = 0x03;
-		v3.enableWebserver       = v2.enableWebserver;
-		v3.enableWifi            = v2.enableWifi;
-		v3.enableLED             = v2.enableLED;
-		v3.sensorType            = v2.sensorType;
-		v3.sensorAddress         = v2.sensorAddress;
-		v3.temperatureOffset     = v2.temperatureOffset;
-		v3.humidityOffset        = v2.humidityOffset;
-		v3.pressureOffset        = v2.pressureOffset;
-		v3.sleepMinutes          = v2.sleepMinutes;
-		v3.maxSeriesPoints       = 0;
-		v3.remainingSeriesPoints = 0;
+		v3.version           = 0x03;
+		v3.enableWebserver   = v2.enableWebserver;
+		v3.enableWifi        = v2.enableWifi;
+		v3.enableLED         = v2.enableLED;
+		v3.sensorType        = v2.sensorType;
+		v3.sensorAddress     = v2.sensorAddress;
+		v3.temperatureOffset = v2.temperatureOffset;
+		v3.humidityOffset    = v2.humidityOffset;
+		v3.pressureOffset    = v2.pressureOffset;
+		v3.sleepMinutes      = v2.sleepMinutes;
+		v3.maxSeriesPoints   = 0;
+		v3.pointsSampled     = 0;
+		v3.batchUploadSize   = 0;
 
 		memcpy(v3.signature, signature, sizeof(v3.signature));
 		memcpy(v3.deviceName, v2.deviceName, sizeof(v3.deviceName));
@@ -113,18 +114,19 @@ namespace eeprom {
 	}
 
 	void setDefaults(data *d) {
-		d->version               = VERSION;
-		d->enableWebserver       = true;
-		d->enableWifi            = false;
-		d->enableLED             = true;
-		d->sensorType            = 0x0;
-		d->sensorAddress         = 0x76; // should work for most cheapo breakout boards
-		d->temperatureOffset     = 0;
-		d->humidityOffset        = 0;
-		d->pressureOffset        = 0;
-		d->sleepMinutes          = 0;
-		d->maxSeriesPoints       = 0;
-		d->remainingSeriesPoints = 0;
+		d->version           = VERSION;
+		d->enableWebserver   = true;
+		d->enableWifi        = false;
+		d->enableLED         = true;
+		d->sensorType        = 0x0;
+		d->sensorAddress     = 0x76; // should work for most cheapo breakout boards
+		d->temperatureOffset = 0;
+		d->humidityOffset    = 0;
+		d->pressureOffset    = 0;
+		d->sleepMinutes      = 0;
+		d->maxSeriesPoints   = 0;
+		d->pointsSampled     = 0;
+		d->batchUploadSize   = 0;
 		strncpy(d->signature, signature, sizeof(d->signature));
 		strncpy(d->deviceName, "froy", sizeof(d->deviceName));
 		memset(d->pushURL, 0x0, sizeof(d->pushURL));

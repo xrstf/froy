@@ -35,7 +35,8 @@ namespace eeprom {
 		char password[64];
 		char seriesName[64];
 		uint16_t maxSeriesPoints;
-		uint16_t remainingSeriesPoints;
+		uint16_t pointsSampled;
+		uint16_t batchUploadSize;
 	};
 
 	// version 2 data

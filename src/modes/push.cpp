@@ -16,6 +16,41 @@
 
 char otaConstraintResponse[64] = {0};
 
+bool pushFile(eeprom::data *config, const char* identifier, File *fs) {
+	WiFiClient wifiClient;
+	HTTPClient httpClient;
+
+	if (!httpClient.begin(wifiClient, config->pushURL)) {
+		Serial.println("Error: Failed to setup HTTP client.");
+		return false;
+	}
+
+	char ua[128];
+	memset(ua, 0, sizeof(ua));
+	sprintf(ua, "froy-%s/%s", config->deviceName, FROY_VERSION);
+
+	httpClient.addHeader("Content-Type", "application/octet-stream");
+	httpClient.addHeader("Froy-Device", config->deviceName);
+	httpClient.addHeader("Froy-Version", FROY_VERSION);
+	httpClient.addHeader("Froy-Series", identifier);
+	httpClient.setUserAgent(ua);
+	httpClient.setTimeout(10000);
+	httpClient.setReuse(false);
+
+	int responseCode = httpClient.sendRequest("POST", fs, fs->size());
+	if (responseCode < 0) {
+		xrstf::serialPrintf("Error: Request failed: %s\n", httpClient.errorToString(responseCode).c_str());
+	} else {
+		xrstf::serialPrintf("OK: Response code: %d\n", responseCode);
+	}
+
+	if (responseCode != HTTP_CODE_OK) {
+		return false;
+	}
+
+	return eeprom::updateFromJSON(config, httpClient.getString(), otaConstraintResponse);
+}
+
 bool pushHTTP(eeprom::data *config, String body) {
 	WiFiClient wifiClient;
 	HTTPClient httpClient;

@@ -415,6 +415,7 @@ namespace cli {
 		}
 
 		strncpy(data.seriesName, flags, sizeof(data.seriesName));
+		data.pointsSampled = 0;
 		SAVE_EEPROM(data);
 
 		xrstf::serialPrintf("OK: Going to log data as %s time series.\n", data.seriesName);
@@ -457,8 +458,8 @@ namespace cli {
 			return;
 		}
 
-		data.maxSeriesPoints       = (uint16_t)pointsInt;
-		data.remainingSeriesPoints = data.maxSeriesPoints;
+		data.maxSeriesPoints = (uint16_t)pointsInt;
+		data.pointsSampled   = 0;
 		SAVE_EEPROM(data);
 
 		if (pointsInt == 0) {
@@ -503,10 +504,16 @@ namespace cli {
 			xrstf::serialPrintf("Data Logging......: yes\n");
 			xrstf::serialPrintf("Time Series.......: %s\n", data.seriesName);
 
-			if (data.maxSeriesPoints == 0) {
+			if (data.maxSeriesPoints > 0) {
 				xrstf::serialPrintf("Max Data Points...: %d\n", data.maxSeriesPoints);
 			} else {
 				xrstf::serialPrintf("Max Data Points...: (unlimited)\n");
+			}
+
+			if (data.batchUploadSize > 0) {
+				xrstf::serialPrintf("Batch Upload......: after %d samples\n", data.batchUploadSize);
+			} else {
+				xrstf::serialPrintf("Batch Upload......: (disabled)\n");
 			}
 		}
 
@@ -654,6 +661,50 @@ namespace cli {
 		xrstf::serialPrintf("OK: Time series %s removed.\n", flags);
 	}
 
+	void handleSetBatchSizeCommand(char *flags) {
+		LOAD_EEPROM(data);
+
+		if (strlen(data.seriesName) == 0) {
+			Serial.println("Error: A time series name must be configured first.");
+			return;
+		}
+
+		if (strlen(flags) == 0) {
+			Serial.println("Error: A number must be provided.");
+			return;
+		}
+
+		if (strlen(flags) > 5) {
+			Serial.println("Error: Number of data points must be at most 5 digits long.");
+			return;
+		}
+
+		int batchInt = 0;
+		if (!xrstf::safeStringToInt(flags, &batchInt)) {
+			Serial.println("Error: Invalid number given.");
+			return;
+		}
+
+		if (batchInt < 0) {
+			Serial.println("Error: Number cannot be negative; use 0 to disable batch uploads.");
+			return;
+		}
+
+		if (batchInt > 16000) {
+			Serial.println("Error: Batch size cannot be larger than 16k.");
+			return;
+		}
+
+		data.batchUploadSize = (uint16_t)batchInt;
+		SAVE_EEPROM(data);
+
+		if (batchInt == 0) {
+			Serial.println("OK: Data logging only now, not performing batch uploads.");
+		} else {
+			xrstf::serialPrintf("OK: Will try to upload after every %d samples.\n", data.batchUploadSize);
+		}
+	}
+
 	void clear() {
 		while (Serial.available() > 0) {
 			Serial.read();
@@ -714,6 +765,8 @@ namespace cli {
 				handleDisableTimeSeriesCommand();
 			} else if (xrstf::startsWith(commandStr, "disable-time-series")) {
 				handleDisableTimeSeriesCommand();
+			} else if (xrstf::startsWith(commandStr, "set-batch-size ")) {
+				handleSetBatchSizeCommand(commandStr + strlen("set-batch-size "));
 			} else if (strcmp(commandStr, "ntp-time") == 0) {
 				handleGetNTPTimeCommand();
 			} else if (strcmp(commandStr, "show-timeseries") == 0) {

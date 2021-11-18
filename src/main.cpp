@@ -18,12 +18,13 @@
 #include "config.h"
 #include "eeprom.h"
 #include "modes/datalogging.h"
-#include "multimeter.h"
 #include "modes/push.h"
+#include "multimeter.h"
 #include "sensor.h"
 #include "util.h"
 #include "webserver.h"
 #include "wifi.h"
+#include <LittleFS.h>
 #include <xrstf_arduino_util.h>
 
 void runSleepMode(eeprom::data *config, long bootTime) {

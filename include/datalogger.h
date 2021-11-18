@@ -16,11 +16,11 @@ public:
 	bool removeMetric(const String &metric);
 	bool wipe();
 	size_t availableSpace();
+	void metricFilename(char *buf, const String &metric);
 
 private:
 	FS &fs;
 	String directory;
 
 	size_t maxMetricLength();
-	void metricFilename(char *buf, const String &metric);
 };
