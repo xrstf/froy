@@ -313,6 +313,25 @@ namespace eeprom {
 			}
 		}
 
+		if (doc.containsKey("seriesName")) {
+			const char *seriesName = doc["seriesName"];
+			if (strcmp(seriesName, config->seriesName) != 0) {
+				xrstf::serialPrintf("Update: Setting seriesName to '%s'.\n", seriesName);
+				strncpy(config->seriesName, seriesName, sizeof(config->seriesName));
+				config->pointsSampled = 0;
+				changes = true;
+			}
+		}
+
+		if (doc.containsKey("batchUploadSize")) {
+			int batchUploadSize = doc["batchUploadSize"];
+			if (batchUploadSize != config->batchUploadSize) {
+				xrstf::serialPrintf("Update: Setting batchUploadSize to %d.\n", batchUploadSize);
+				config->batchUploadSize = batchUploadSize;
+				changes = true;
+			}
+		}
+
 		if (changes) {
 			save(config);
 		}

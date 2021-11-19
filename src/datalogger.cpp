@@ -41,7 +41,11 @@ size_t Datalogger::maxMetricLength() {
 }
 
 bool Datalogger::appendData(const String &metric, const String &data) {
-	if (this->availableSpace() < data.length()) {
+	return this->appendData(metric, data.c_str(), data.length());
+}
+
+bool Datalogger::appendData(const String &metric, const char *data, size_t length) {
+	if (this->availableSpace() < length) {
 		Serial.println("Not enough free disk space for this data.");
 		return false;
 	}
@@ -61,15 +65,28 @@ bool Datalogger::appendData(const String &metric, const String &data) {
 		return false;
 	}
 
-	size_t written = f.println(data);
+	size_t written = f.write(data, length);
 	f.close();
 
-	if (written < data.length()) {
+	if (written < length) {
 		Serial.println("Failed to write full data set.");
 		return false;
 	}
 
 	return true;
+}
+
+bool Datalogger::hasMetric(const String &metric) {
+	// https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html#littlefs-file-system-limitations
+	if (metric.length() > this->maxMetricLength()) {
+		Serial.println("Metric name is too long.");
+		return false;
+	}
+
+	char filename[32];
+	this->metricFilename(filename, metric);
+
+	return this->fs.exists(filename);
 }
 
 bool Datalogger::printMetric(const String &metric) {

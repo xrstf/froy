@@ -11,7 +11,9 @@ public:
 
 	bool begin();
 	void end();
+	bool hasMetric(const String &metric);
 	bool appendData(const String &metric, const String &data);
+	bool appendData(const String &metric, const char *data, size_t length);
 	bool printMetric(const String &metric);
 	bool removeMetric(const String &metric);
 	bool wipe();

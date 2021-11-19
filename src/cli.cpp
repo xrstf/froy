@@ -494,7 +494,7 @@ namespace cli {
 
 		if (data.sleepMinutes == 0) {
 			Serial.println("Push enabled......: no");
-		} else {
+		} else if (strlen(data.seriesName) == 0) {
 			xrstf::serialPrintf("Push enabled......: yes (every %d minute(s))\n", data.sleepMinutes);
 		}
 

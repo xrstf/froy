@@ -81,6 +81,26 @@ void batchUpload(eeprom::data *config, Datalogger *dl) {
 	}
 }
 
+size_t dumpFloat(char *buf, float value) {
+	memcpy(buf, (char *)&value, sizeof(value));
+	return sizeof(value);
+}
+
+// dumpTimestamp only stores the time in xrstf epoch,
+// which is hereby defined as "seconds since 2020-01-01 midnight UTC";
+// this shifts the time range to be my lifetime and
+// allows me to save 4 more bytes, cause we do not need 64 bit anymore.
+size_t dumpTimestamp(char *buf, time_t value) {
+	uint32_t epoch = (uint32_t) (value - 1577836800);
+	memcpy(buf, (char *)&epoch, sizeof(epoch));
+	return sizeof(epoch);
+}
+
+size_t dumpUint16(char *buf, uint16_t value) {
+	memcpy(buf, (char *)&value, sizeof(value));
+	return sizeof(value);
+}
+
 bool handleDataLoggingMode(eeprom::data *config) {
 	// in this mode, we do not connect to the WiFi, so we must wait a
 	// short moment to give the user (me! you!) a chance to send a CLI
@@ -139,13 +159,28 @@ bool handleDataLoggingMode(eeprom::data *config) {
 		return true; // good luck next time, go back to sleep
 	}
 
-	char timestamp[32];
-	sprintf(timestamp, "%04d%02d%02d%02d%02d%02d", rtc::decodeYear(now.Year), now.Month, now.Day, now.Hour, now.Minute, now.Second);
+	// init new files with a version number
+	if (!dl.hasMetric(config->seriesName)) {
+		dl.appendData(config->seriesName, "V1");
+	}
 
-	char data[64];
-	sprintf(data, "%s;%.2f;%.2f;%.2f;%d", timestamp, m.sensor.temperature, m.sensor.humidity, m.sensor.pressure, m.batteryRaw);
+	// below is what we define as "Version 1" of our binary data format
 
-	dl.appendData(config->seriesName, data);
+	// log data as raw bytes with a fixed length, so we save
+	// as much space as possible; note that dumpTimestamp trims the
+	// time down to 4 bytes!
+	// ts (4b) + temp (4b) + humidity (4b) + pressure (4b) + batteryRaw (2b) = 18 byte
+	char data[18];
+	memset(data, 0x0, sizeof(data));
+
+	size_t pos = 0;
+	pos += dumpTimestamp(data + pos, makeTime(now));
+	pos += dumpFloat(data + pos, m.sensor.temperature);
+	pos += dumpFloat(data + pos, m.sensor.humidity);
+	pos += dumpFloat(data + pos, m.sensor.pressure);
+	pos += dumpUint16(data + pos, m.batteryRaw);
+
+	dl.appendData(config->seriesName, data, pos);
 	Serial.println("Measurement logged.");
 
 	// check if we need to try a batch upload now
