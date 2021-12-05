@@ -12,4 +12,3 @@ void setupLED();
 void setLED(bool enabled);
 void enableLED();
 void disableLED();
-void goToSleep(eeprom::data *config, long bootTime);
