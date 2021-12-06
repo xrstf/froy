@@ -494,14 +494,18 @@ namespace cli {
 
 		if (data.sleepMinutes == 0) {
 			Serial.println("Push enabled......: no");
-		} else if (strlen(data.seriesName) == 0) {
+		} else if (strlen(data.pushURL) > 0 && strlen(data.seriesName) == 0) {
 			xrstf::serialPrintf("Push enabled......: yes (every %d minute(s))\n", data.sleepMinutes);
 		}
 
 		if (strlen(data.seriesName) == 0) {
 			Serial.println("Data Logging......: no");
 		} else {
-			xrstf::serialPrintf("Data Logging......: yes\n");
+			if (data.sleepMinutes == 0) {
+				Serial.println("Data Logging......: no");
+			} else {
+				xrstf::serialPrintf("Data Logging......: yes (every %d minute(s))\n", data.sleepMinutes);
+			}
 			xrstf::serialPrintf("Time Series.......: %s\n", data.seriesName);
 
 			if (data.maxSeriesPoints > 0) {
