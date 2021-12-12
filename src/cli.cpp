@@ -665,6 +665,19 @@ namespace cli {
 		xrstf::serialPrintf("OK: Time series %s removed.\n", flags);
 	}
 
+	void handleClearAllTimeSeriesCommand() {
+		Datalogger dl(LittleFS, "m");
+		if (!dl.begin()) {
+			Serial.println("Failed to init LittleFS.");
+			return;
+		}
+
+		dl.wipe();
+		dl.end();
+
+		Serial.println("OK: All time series were removed.");
+	}
+
 	void handleSetBatchSizeCommand(char *flags) {
 		LOAD_EEPROM(data);
 
@@ -781,6 +794,10 @@ namespace cli {
 				handleClearTimeSeriesCommand(NULL);
 			} else if (strcmp(commandStr, "clear-time-series") == 0) {
 				handleClearTimeSeriesCommand(NULL);
+			} else if (strcmp(commandStr, "clear-all-timeseries") == 0) {
+				handleClearAllTimeSeriesCommand();
+			} else if (strcmp(commandStr, "clear-all-time-series") == 0) {
+				handleClearAllTimeSeriesCommand();
 			} else if (strcmp(commandStr, "enable-webserver") == 0) {
 				handleEnableWebserverCommand();
 			} else if (strcmp(commandStr, "disable-webserver") == 0) {
