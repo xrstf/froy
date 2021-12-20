@@ -33,7 +33,7 @@ void setupClock(eeprom::data *config) {
 
 	// setup NTP client
 	WiFiUDP ntpUDP;
-	NTPClient timeClient(ntpUDP);
+	NTPClient timeClient(ntpUDP, "de.pool.ntp.org");
 
 	// fetch current UNIX timestamp
 	timeClient.begin();
