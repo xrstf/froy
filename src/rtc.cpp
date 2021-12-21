@@ -33,6 +33,6 @@ namespace rtc {
 	}
 
 	void printToSerial(tmElements_t &tm) {
-		xrstf::serialPrintf("Time & Date: %04d-%02d-%02d %02d:%02d:%02d\n", decodeYear(tm.Year), tm.Month, tm.Day, tm.Hour, tm.Minute, tm.Second);
+		xrstf::serialPrintf("Current Time & Date: %04d-%02d-%02d %02d:%02d:%02d\n", decodeYear(tm.Year), tm.Month, tm.Day, tm.Hour, tm.Minute, tm.Second);
 	}
 } // namespace rtc

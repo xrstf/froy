@@ -6,8 +6,6 @@
 #include "rtc.h"
 #include "util.h"
 #include "wifi.h"
-#include <NTPClient.h>
-#include <WiFiUdp.h>
 #include <xrstf_arduino_util.h>
 
 void setupClock(eeprom::data *config) {
@@ -20,31 +18,9 @@ void setupClock(eeprom::data *config) {
 		return; // all OK
 	}
 
-	// we need WiFi for NTP
-	if (!wifi::enabled(config)) {
-		return;
-	}
-
-	// we have WiFi credentials, so we can connect!
+	// try to connect (if WiFi is enabled and we have credentials set);
+	// after connecting, the code will automatically attempt an NTP update.
 	wifi::connect(config);
-	if (!wifi::connected) {
-		return;
-	}
-
-	// setup NTP client
-	WiFiUDP ntpUDP;
-	NTPClient timeClient(ntpUDP, "de.pool.ntp.org");
-
-	// fetch current UNIX timestamp
-	timeClient.begin();
-	if (timeClient.update()) {
-		time_t epoch = timeClient.getEpochTime();
-		breakTime(epoch, tm);
-		rtc::set(tm);
-		xrstf::blinkLED(LED_PIN, 5, 200);
-	}
-	timeClient.end();
-
 	wifi::disconnect();
 }
 

@@ -1,8 +1,11 @@
 #include "eeprom.h"
+#include "rtc.h"
 #include "util.h"
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <IPAddress.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 #include <string.h>
 #include <xrstf_arduino_util.h>
 #include <xrstf_util.h>
@@ -13,6 +16,32 @@ namespace wifi {
 
 	bool enabled(eeprom::data *config) {
 		return config->enableWifi && strlen(config->ssid) > 0 && strlen(config->password) > 0;
+	}
+
+	void updateClock() {
+		if (!rtc::exists()) {
+			return;
+		}
+
+		// setup NTP client
+		WiFiUDP ntpUDP;
+		NTPClient timeClient(ntpUDP, "de.pool.ntp.org");
+
+		Serial.println("Attempting NTP update...");
+
+		// fetch current UNIX timestamp
+		timeClient.begin();
+		if (timeClient.update()) {
+			time_t epoch = timeClient.getEpochTime();
+
+			tmElements_t tm;
+			breakTime(epoch, tm);
+			rtc::set(tm);
+
+			Serial.println("NTP update OK.");
+			xrstf::blinkLED(LED_PIN, 5, 150);
+		}
+		timeClient.end();
 	}
 
 	void connect(eeprom::data *config) {
@@ -41,6 +70,8 @@ namespace wifi {
 
 			xrstf::serialPrintf("Connection established, my IP is %s!\n", localIP.toString().c_str());
 			connected = true;
+
+			updateClock();
 		}
 	}
 
