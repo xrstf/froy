@@ -505,6 +505,7 @@ namespace cli {
 				Serial.println("Data Logging......: no");
 			} else {
 				xrstf::serialPrintf("Data Logging......: yes (every %d minute(s))\n", data.sleepMinutes);
+				xrstf::serialPrintf("Startup Delay.....: %d ms\n", data.startupDelay);
 			}
 			xrstf::serialPrintf("Time Series.......: %s\n", data.seriesName);
 
@@ -722,6 +723,41 @@ namespace cli {
 		}
 	}
 
+	void handleSetStartupDelayCommand(char *flags) {
+		LOAD_EEPROM(data);
+
+		if (strlen(flags) == 0) {
+			Serial.println("Error: A number must be provided.");
+			return;
+		}
+
+		if (strlen(flags) > 5) {
+			Serial.println("Error: Startup delay must be at most 5 digits long.");
+			return;
+		}
+
+		int delayInt = 0;
+		if (!xrstf::safeStringToInt(flags, &delayInt)) {
+			Serial.println("Error: Invalid number given.");
+			return;
+		}
+
+		if (delayInt < 0) {
+			Serial.println("Error: Number cannot be negative.");
+			return;
+		}
+
+		if (delayInt > 16000) {
+			Serial.println("Error: Startup delay cannot be larger than 16 seconds.");
+			return;
+		}
+
+		data.startupDelay = (uint16_t)delayInt;
+		SAVE_EEPROM(data);
+
+		xrstf::serialPrintf("OK: Will sleep %d milliseconds on startup.\n", data.startupDelay);
+	}
+
 	void clear() {
 		while (Serial.available() > 0) {
 			Serial.read();
@@ -764,6 +800,8 @@ namespace cli {
 				handleSetHumidityOffsetCommand(commandStr + strlen("set-humidity-offset "));
 			} else if (xrstf::startsWith(commandStr, "set-pressure-offset ")) {
 				handleSetPressureOffsetCommand(commandStr + strlen("set-pressure-offset "));
+			} else if (xrstf::startsWith(commandStr, "set-startup-delay ")) {
+				handleSetStartupDelayCommand(commandStr + strlen("set-startup-delay "));
 			} else if (xrstf::startsWith(commandStr, "set-timeseries ")) {
 				handleSetTimeSeriesCommand(commandStr + strlen("set-timeseries "));
 			} else if (xrstf::startsWith(commandStr, "set-time-series ")) {

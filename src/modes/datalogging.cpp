@@ -81,10 +81,17 @@ bool handleDataLoggingMode(eeprom::data *config) {
 	// in this mode, we do not connect to the WiFi, so we must wait a
 	// short moment to give the user (me! you!) a chance to send a CLI
 	// command to jump out of sleep mode;
-	uint32_t waitUntil = millis() + 2 * 1000; // 2 seconds
-	while (millis() < waitUntil) {
-		cli::handleCommand();
-		yield();
+	uint32_t startupDelay = config->startupDelay;
+	if (startupDelay > 0) {
+		xrstf::serialPrintf("Waiting %d milliseconds for input...\n", startupDelay);
+
+		// see https://arduino.stackexchange.com/a/12588 for why the loop
+		// condition is written this way
+		unsigned long start = millis();
+		while (millis() - start < startupDelay) {
+			cli::handleCommand();
+			yield();
+		}
 	}
 
 	// reload EEPROM data, in case the user disabled sleep mode

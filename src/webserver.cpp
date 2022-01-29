@@ -184,6 +184,7 @@ namespace webserver {
 		doc["temperatureOffset"] = config.temperatureOffset;
 		doc["pressureOffset"]    = config.pressureOffset;
 		doc["humidityOffset"]    = config.humidityOffset;
+		doc["startupDelay"]      = config.startupDelay;
 
 		// disable sensor reading
 		config.sensorType = 0x0;

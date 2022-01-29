@@ -37,6 +37,7 @@ namespace eeprom {
 		uint16_t maxSeriesPoints;
 		uint16_t pointsSampled;
 		uint16_t batchUploadSize;
+		uint16_t startupDelay;
 	};
 
 	// version 2 data

@@ -67,6 +67,7 @@ namespace eeprom {
 		v3.maxSeriesPoints   = 0;
 		v3.pointsSampled     = 0;
 		v3.batchUploadSize   = 0;
+		v3.startupDelay      = 2000;
 
 		memcpy(v3.signature, signature, sizeof(v3.signature));
 		memcpy(v3.deviceName, v2.deviceName, sizeof(v3.deviceName));
@@ -127,6 +128,7 @@ namespace eeprom {
 		d->maxSeriesPoints   = 0;
 		d->pointsSampled     = 0;
 		d->batchUploadSize   = 0;
+		d->startupDelay      = 2000;
 		strncpy(d->signature, signature, sizeof(d->signature));
 		strncpy(d->deviceName, "froy", sizeof(d->deviceName));
 		memset(d->pushURL, 0x0, sizeof(d->pushURL));
@@ -328,6 +330,15 @@ namespace eeprom {
 			if (batchUploadSize != config->batchUploadSize) {
 				xrstf::serialPrintf("Update: Setting batchUploadSize to %d.\n", batchUploadSize);
 				config->batchUploadSize = batchUploadSize;
+				changes = true;
+			}
+		}
+
+		if (doc.containsKey("startupDelay")) {
+			int startupDelay = doc["startupDelay"];
+			if (startupDelay < 16000 && startupDelay != config->startupDelay) {
+				xrstf::serialPrintf("Update: Setting startupDelay to %d.\n", startupDelay);
+				config->startupDelay = startupDelay;
 				changes = true;
 			}
 		}
